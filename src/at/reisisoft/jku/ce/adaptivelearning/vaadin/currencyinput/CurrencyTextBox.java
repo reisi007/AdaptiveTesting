@@ -17,7 +17,7 @@ public class CurrencyTextBox extends TextField implements TextChangeListener {
 			regexNumber_ColonSep = "^([0-9]{1,3}(((\\.[0-9]{3}){0,})|[0-9]{0,}))?(,[0-9]{1,2})?$";
 
 	public CurrencyTextBox() {
-		addListener((TextChangeListener) this);
+		addTextChangeListener(this);
 		setTextChangeEventMode(TextChangeEventMode.LAZY);
 	}
 
