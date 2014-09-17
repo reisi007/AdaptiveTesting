@@ -12,7 +12,15 @@ public class AccountingDataStorage implements IAnswerStorage {
 		haben = new ArrayList<>();
 	}
 
-	public final List<AccountRecordData> soll, haben;
+	private final List<AccountRecordData> soll, haben;
+
+	public List<AccountRecordData> getSoll() {
+		return soll;
+	}
+
+	public List<AccountRecordData> getHaben() {
+		return haben;
+	}
 
 	public void addSoll(AccountRecordData data) {
 		soll.add(data);
