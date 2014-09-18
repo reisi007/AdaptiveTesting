@@ -1,12 +1,23 @@
 package at.reisisoft.jku.ce.adaptivelearning.topic.accounting;
 
 public class AccountRecordData {
-	public final String accountname;
+	@Override
+	public String toString() {
+		return "(" + accountNumber + ") "
+				+ (accountName == null ? "???" : accountName) + " " + value
+				+ '€';
+	}
+
+	public final String accountName;
 	public final float value;
 	public final int accountNumber;
 
+	public AccountRecordData() {
+		this("", 0, 0);
+	}
+
 	public AccountRecordData(String accountname, float value, int accountNumber) {
-		this.accountname = accountname;
+		accountName = accountname;
 		this.value = value;
 		this.accountNumber = accountNumber;
 	}
@@ -17,7 +28,7 @@ public class AccountRecordData {
 		int result = 1;
 		result = prime * result + accountNumber;
 		result = prime * result
-				+ (accountname == null ? 0 : accountname.hashCode());
+				+ (accountName == null ? 0 : accountName.hashCode());
 		result = prime * result + Float.floatToIntBits(value);
 		return result;
 	}
@@ -37,11 +48,11 @@ public class AccountRecordData {
 		if (accountNumber != other.accountNumber) {
 			return false;
 		}
-		if (accountname == null) {
-			if (other.accountname != null) {
+		if (accountName == null) {
+			if (other.accountName != null) {
 				return false;
 			}
-		} else if (!accountname.equals(other.accountname)) {
+		} else if (!accountName.equals(other.accountName)) {
 			return false;
 		}
 		if (Float.floatToIntBits(value) != Float.floatToIntBits(other.value)) {

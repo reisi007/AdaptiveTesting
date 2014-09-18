@@ -23,7 +23,7 @@ public interface IQuestion<DataStorage extends IAnswerStorage> {
 
 	/**
 	 *
-	 * @return The difficulty. 0 the easiest, 100 the hardest
+	 * @return The difficulty. -INF the easiest, +INF the hardest
 	 */
-	public int getDifficulty();
+	public float getDifficulty();
 }

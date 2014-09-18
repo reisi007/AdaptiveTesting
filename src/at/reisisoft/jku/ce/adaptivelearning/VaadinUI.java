@@ -4,8 +4,8 @@ import javax.servlet.annotation.WebServlet;
 
 import org.vaadin.addon.borderlayout.BorderLayout.Constraint;
 
+import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.test.MockAccountQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.ui.MainUI;
-import at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting.AccountingRecordInputFields;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -27,9 +27,9 @@ public class VaadinUI extends UI {
 		MainUI layout = new MainUI(this);
 		layout.setMargin(true);
 		setContent(layout);
-		layout.addComponent(new AccountingRecordInputFields(),
+		layout.addComponent(new MockAccountQuestion(2, 2, this),
 				Constraint.CENTER);
-		// Set start screen
+		// TODO Set start screen
 	}
 
 }

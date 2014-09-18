@@ -8,13 +8,13 @@ import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.ui.TextField;
 
 public class AccountNumberInputField extends TextField implements
-TextChangeListener {
+		TextChangeListener {
 
 	private static final long serialVersionUID = 1535274733192320364L;
 	private final List<ValidValueChangedListener<Integer>> validValueChangedListeners = new ArrayList<>();
 	private int value = 0;
 	private String lastValue = "00";
-	private final String regex = "^[0-9]{2}$";
+	private final String regex = "^[0-9]{0,2}$";
 
 	public AccountNumberInputField() {
 		addTextChangeListener(this);

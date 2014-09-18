@@ -8,17 +8,19 @@ import at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting.AccountingRecord
 import at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting.AccountingRecordInputGrid;
 
 public class AccountingQuestion extends AccountingRecordInputGrid implements
-IQuestion<AccountingDataStorage> {
+		IQuestion<AccountingDataStorage> {
 	private static final long serialVersionUID = 5932474069705038565L;
-	private int difficulty;
+	private float difficulty;
 	private AccountingDataStorage solution;
 	private AccountingRecordInputFields[] soll, haben;
 
-	public AccountingQuestion(AccountingDataStorage solution, int difficulty) {
+	public AccountingQuestion(AccountingDataStorage solution, float difficulty) {
 		this.difficulty = difficulty;
 		this.solution = solution;
 		// Fill grid
 		int iSoll = solution.getSoll().length, iHaben = solution.getHaben().length;
+		soll = new AccountingRecordInputFields[iSoll];
+		haben = new AccountingRecordInputFields[iHaben];
 		for (int row = 0; row < iSoll; row++) {
 			soll[row] = new AccountingRecordInputFields();
 			addComponent(soll[row], Side.Left, row);
@@ -44,11 +46,13 @@ IQuestion<AccountingDataStorage> {
 		for (int i = 0; i < soll.length; i++) {
 			accountRecordDatas[i] = soll[i].getAccountRecordData();
 		}
+		dataStorage.setSoll(accountRecordDatas);
 		// Add haben
 		accountRecordDatas = new AccountRecordData[haben.length];
 		for (int i = 0; i < haben.length; i++) {
 			accountRecordDatas[i] = haben[i].getAccountRecordData();
 		}
+		dataStorage.setHaben(accountRecordDatas);
 		return dataStorage;
 	}
 
@@ -74,7 +78,7 @@ IQuestion<AccountingDataStorage> {
 	}
 
 	@Override
-	public int getDifficulty() {
+	public float getDifficulty() {
 		return difficulty;
 	}
 
