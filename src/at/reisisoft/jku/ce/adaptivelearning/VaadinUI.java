@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import org.vaadin.addon.borderlayout.BorderLayout.Constraint;
 
 import at.reisisoft.jku.ce.adaptivelearning.ui.MainUI;
-import at.reisisoft.jku.ce.adaptivelearning.ui.SingleComponentLayout;
+import at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting.AccountingRecordInputFields;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -26,11 +26,10 @@ public class VaadinUI extends UI {
 		// Main UI layout
 		MainUI layout = new MainUI(this);
 		layout.setMargin(true);
-		SingleComponentLayout centerLayout = new SingleComponentLayout();
 		setContent(layout);
-		layout.addComponent(centerLayout, Constraint.CENTER);
+		layout.addComponent(new AccountingRecordInputFields(),
+				Constraint.CENTER);
 		// Set start screen
-
 	}
 
 }

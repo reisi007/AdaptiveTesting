@@ -1,4 +1,4 @@
-package at.reisisoft.jku.ce.adaptivelearning.vaadin.currencyinput;
+package at.reisisoft.jku.ce.adaptivelearning.vaadin.input;
 
 import java.util.ArrayList;
 import java.util.List;

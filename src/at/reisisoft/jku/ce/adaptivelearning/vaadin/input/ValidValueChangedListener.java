@@ -1,4 +1,4 @@
-package at.reisisoft.jku.ce.adaptivelearning.vaadin.currencyinput;
+package at.reisisoft.jku.ce.adaptivelearning.vaadin.input;
 
 public interface ValidValueChangedListener<T> {
 
