@@ -3,8 +3,6 @@ package at.reisisoft.jku.ce.adaptivelearning.ui;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.vaadin.addon.borderlayout.BorderLayout;
-
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -14,7 +12,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
-public class MainUI extends BorderLayout {
+public class MainUI extends ExtBorderLayout {
 
 	private static final long serialVersionUID = 4966805861748123750L;
 

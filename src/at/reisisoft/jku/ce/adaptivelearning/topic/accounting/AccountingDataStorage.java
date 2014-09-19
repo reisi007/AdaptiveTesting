@@ -5,7 +5,6 @@ import java.io.Serializable;
 import at.reisisoft.jku.ce.adaptivelearning.core.IAnswerStorage;
 
 public class AccountingDataStorage implements IAnswerStorage, Serializable {
-
 	private static final long serialVersionUID = -8179746363246548456L;
 	private AccountRecordData[] soll = new AccountRecordData[0];
 	private AccountRecordData[] haben = new AccountRecordData[0];

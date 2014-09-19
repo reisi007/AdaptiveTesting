@@ -1,11 +1,13 @@
 package at.reisisoft.jku.ce.adaptivelearning.ui;
 
-import org.vaadin.addon.borderlayout.BorderLayout;
+import at.reisisoft.jku.ce.adaptivelearning.core.IAnswerStorage;
+import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
 
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-public class QuestionManager extends BorderLayout {
+public class QuestionManager extends ExtBorderLayout {
 
 	private static final long serialVersionUID = -1445092564755306295L;
 	private SingleComponentLayout questionHolder = new SingleComponentLayout();
@@ -19,5 +21,21 @@ public class QuestionManager extends BorderLayout {
 		labeltext.append("</h1>");
 		addComponent(new Label(labeltext.toString(), ContentMode.HTML),
 				Constraint.NORTH);
+	}
+
+	/**
+	 *
+	 * @param question
+	 *            MUST be of Type Component AND of IQuestion<? extends
+	 *            IAnswerStorage>
+	 */
+	public <Q extends Component & IQuestion<? extends IAnswerStorage>> void addQuestion(
+			Q question) {
+		if (!(question instanceof Component && question instanceof IQuestion)
+				|| question == null) {
+			throw new IllegalArgumentException(
+					"question MUST be of Type Component AND of IQuestion<? extends IAnswerStorage>");
+		}
+		addComponent(question);
 	}
 }

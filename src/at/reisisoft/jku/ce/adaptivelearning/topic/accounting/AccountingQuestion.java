@@ -8,13 +8,34 @@ import at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting.AccountingRecord
 import at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting.AccountingRecordInputGrid;
 
 public class AccountingQuestion extends AccountingRecordInputGrid implements
-		IQuestion<AccountingDataStorage> {
+IQuestion<AccountingDataStorage> {
 	private static final long serialVersionUID = 5932474069705038565L;
-	private float difficulty;
+	private String questionText;
+	private float difficulty = 0;
 	private AccountingDataStorage solution;
 	private AccountingRecordInputFields[] soll, haben;
 
-	public AccountingQuestion(AccountingDataStorage solution, float difficulty) {
+	public AccountingQuestion() {
+		this(getEmptyDataStorage(), 0, "");
+	}
+
+	private static AccountingDataStorage getEmptyDataStorage() {
+		AccountingDataStorage ds = new AccountingDataStorage();
+		AccountRecordData[] accountRecordDatas = new AccountRecordData[3];
+		for (int i = 0; i < accountRecordDatas.length; i++) {
+			accountRecordDatas[i] = new AccountRecordData();
+		}
+		ds.setSoll(accountRecordDatas);
+		accountRecordDatas = new AccountRecordData[3];
+		for (int i = 0; i < accountRecordDatas.length; i++) {
+			accountRecordDatas[i] = new AccountRecordData();
+		}
+		ds.setHaben(accountRecordDatas);
+		return ds;
+	}
+
+	public AccountingQuestion(AccountingDataStorage solution, float difficulty,
+			String question) {
 		this.difficulty = difficulty;
 		this.solution = solution;
 		// Fill grid
@@ -35,6 +56,12 @@ public class AccountingQuestion extends AccountingRecordInputGrid implements
 	@Override
 	public AccountingDataStorage getSolution() {
 		return solution;
+	}
+
+	public void setSolution(AccountingDataStorage solution) {
+		if (solution != null) {
+			this.solution = solution;
+		}
 	}
 
 	@Override
@@ -81,5 +108,29 @@ public class AccountingQuestion extends AccountingRecordInputGrid implements
 	public float getDifficulty() {
 		return difficulty;
 	}
+
+	public String getQuestionText() {
+		return questionText;
+	}
+
+	public void setQuestionText(String questionText) {
+		this.questionText = questionText;
+	}
+
+	/*
+	 * public String toXML() throws JAXBException { JAXBContext context =
+	 * JAXBContext.newInstance(this.getClass()); Marshaller marshaller =
+	 * context.createMarshaller(); ByteArrayOutputStream byteArrayOutputStream =
+	 * new ByteArrayOutputStream(); marshaller.marshal(this,
+	 * byteArrayOutputStream); return new
+	 * String(byteArrayOutputStream.toByteArray()); }
+	 *
+	 * public static AccountingQuestion fromXML(String xml) throws JAXBException
+	 * { JAXBContext context =
+	 * JAXBContext.newInstance(AccountingQuestion.class); Unmarshaller
+	 * unmarshaller = context.createUnmarshaller(); InputStream inputStream =
+	 * new ReaderInputStream(new StringReader(xml)); return (AccountingQuestion)
+	 * unmarshaller.unmarshal(inputStream); }
+	 */
 
 }
