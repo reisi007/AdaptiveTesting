@@ -4,29 +4,37 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 
-@XmlRootElement(name = "questionDataStorage")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class XMLQuestionData<DataStorage extends AnswerStorage> implements
-		Serializable {
+public abstract class XmlQuestionData<DataStorage extends AnswerStorage>
+implements Serializable {
 
 	private static final long serialVersionUID = 5422318817914536294L;
-
+	@XmlElement(name = "dataStorage", nillable = true)
 	private DataStorage dataStorage;
+	@XmlElement(name = "question")
 	private String question;
+	@XmlElement(name = "difficulty")
 	private float difficulty;
 
-	public XMLQuestionData() {
+	public XmlQuestionData() {
 		this(null, "", 0);
 	}
 
-	public XMLQuestionData(DataStorage dataStorage, String question,
+	@SuppressWarnings("unchecked")
+	public XmlQuestionData(DataStorage dataStorage, String question,
 			float difficulty) {
+		if (dataStorage == null) {
+			dataStorage = getEmptyDataStorage();
+		}
 		this.dataStorage = dataStorage;
 		this.difficulty = difficulty;
+		if (question == null || question.length() == 0) {
+			question = "";
+		}
 		this.question = question;
 
 	}
@@ -54,6 +62,8 @@ public class XMLQuestionData<DataStorage extends AnswerStorage> implements
 	public void setDifficulty(float difficulty) {
 		this.difficulty = difficulty;
 	}
+
+	public abstract DataStorage getEmptyDataStorage();
 
 	// public static void main(String[] args) throws JAXBException {
 	// ByteArrayOutputStream byteArrayOutputStream = new

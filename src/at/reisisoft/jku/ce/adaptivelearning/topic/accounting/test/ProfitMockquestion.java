@@ -6,10 +6,10 @@ import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.ProfitQuestion;
 
 import com.vaadin.ui.UI;
 
-public class ProfitMockquestion extends
-		MockQuestion<ProfitQuestion, ProfitDataStorage> {
+public class ProfitMockQuestion extends
+MockQuestion<ProfitQuestion, ProfitDataStorage> {
 
-	public ProfitMockquestion(UI ui) {
+	public ProfitMockQuestion(UI ui) {
 		super(new ProfitQuestion(new ProfitDataStorage(null), 0f, ""), ui);
 	}
 

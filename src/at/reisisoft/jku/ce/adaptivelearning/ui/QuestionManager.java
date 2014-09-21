@@ -2,16 +2,17 @@ package at.reisisoft.jku.ce.adaptivelearning.ui;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
+import at.reisisoft.jku.ce.adaptivelearning.core.engine.Engine;
 
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-public class QuestionManager<Question extends IQuestion<? extends AnswerStorage>>
-extends ExtBorderLayout {
+public class QuestionManager extends ExtBorderLayout {
 
 	private static final long serialVersionUID = -4764723794449575244L;
 	private SingleComponentLayout questionHolder = new SingleComponentLayout();
+	private Engine engine = new Engine();
 
 	public QuestionManager(String quizName) {
 		addComponent(questionHolder, Constraint.CENTER);
@@ -31,11 +32,6 @@ extends ExtBorderLayout {
 	 */
 	public <QuestionComponent extends IQuestion<? extends AnswerStorage> & Component> void addQuestion(
 			QuestionComponent question) {
-		if (!(question instanceof Component && question instanceof IQuestion)
-				|| question == null) {
-			throw new IllegalArgumentException(
-					"question MUST be of Type Component AND of IQuestion<? extends IAnswerStorage>");
-		}
-		addComponent(question);
+		questionHolder.addComponent(question);
 	}
 }

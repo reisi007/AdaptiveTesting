@@ -6,7 +6,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import at.reisisoft.jku.ce.adaptivelearning.xml.XMLQuestionData;
+import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
 
 public interface IQuestion<DataStorage extends AnswerStorage> {
 	/**
@@ -39,7 +39,7 @@ public interface IQuestion<DataStorage extends AnswerStorage> {
 	 *
 	 * @return A representation of the question, which can be parsed to XML
 	 */
-	public XMLQuestionData<DataStorage> toXMLRepresentation();
+	public XmlQuestionData<DataStorage> toXMLRepresentation();
 
 	/**
 	 *
@@ -48,9 +48,11 @@ public interface IQuestion<DataStorage extends AnswerStorage> {
 	 *             Exception creating XML
 	 */
 	public default String toXML() throws JAXBException {
-		XMLQuestionData<DataStorage> xmlRepresentation = toXMLRepresentation();
+		XmlQuestionData<DataStorage> xmlRepresentation = toXMLRepresentation();
+		Class<? extends AnswerStorage> dataStorageClass = xmlRepresentation
+				.getEmptyDataStorage().getClass();
 		JAXBContext context = JAXBContext.newInstance(
-				xmlRepresentation.getClass(), getSolution().getClass());
+				xmlRepresentation.getClass(), dataStorageClass);
 		Marshaller marshaller = context.createMarshaller();
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		marshaller.marshal(xmlRepresentation, byteArrayOutputStream);

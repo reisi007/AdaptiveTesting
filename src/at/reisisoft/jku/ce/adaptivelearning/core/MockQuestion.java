@@ -3,7 +3,7 @@ package at.reisisoft.jku.ce.adaptivelearning.core;
 import java.util.Arrays;
 
 import at.reisisoft.jku.ce.adaptivelearning.ui.ExtBorderLayout;
-import at.reisisoft.jku.ce.adaptivelearning.xml.XMLQuestionData;
+import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
 
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
@@ -15,7 +15,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public abstract class MockQuestion<Question extends IQuestion<T> & Component, T extends AnswerStorage>
-extends ExtBorderLayout implements IQuestion<T> {
+		extends ExtBorderLayout implements IQuestion<T> {
 
 	private static final long serialVersionUID = 8387557147527424813L;
 	private final Question question;
@@ -28,6 +28,7 @@ extends ExtBorderLayout implements IQuestion<T> {
 		Button button = new Button("Display current user's solution");
 		addComponent(button, Constraint.SOUTH);
 		TextArea textArea = new TextArea("Question text");
+
 		textArea.setSizeFull();
 		addComponent(textArea, Constraint.NORTH);
 		button.setSizeFull();
@@ -40,11 +41,11 @@ extends ExtBorderLayout implements IQuestion<T> {
 			textArea.addTextChangeListener(ev -> questionText = ev.getText());
 			Label label;
 			try {
-				label = new Label(toXML());
+				label = new Label(toXML(), ContentMode.XML);
 			} catch (Exception e1) {
 				label = new Label(
 						"<h1>Error parsing XML</h1><p>" + e1.getMessage()
-								+ Arrays.toString(e1.getStackTrace()),
+						+ Arrays.toString(e1.getStackTrace()),
 						ContentMode.HTML);
 			}
 			layout.addComponent(label);
@@ -75,7 +76,9 @@ extends ExtBorderLayout implements IQuestion<T> {
 	}
 
 	@Override
-	public XMLQuestionData<T> toXMLRepresentation() {
-		return new XMLQuestionData<T>(getUserAnswer(), questionText, 0);
+	public XmlQuestionData<T> toXMLRepresentation() {
+		XmlQuestionData<T> xml = question.toXMLRepresentation();
+		xml.setQuestion(questionText != null ? questionText : "");
+		return xml;
 	}
 }

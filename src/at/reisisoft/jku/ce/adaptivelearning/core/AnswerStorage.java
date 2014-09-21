@@ -12,4 +12,5 @@ import java.io.Serializable;
 
 public abstract class AnswerStorage implements Serializable {
 	private static final long serialVersionUID = -3635192249644400913L;
+
 }

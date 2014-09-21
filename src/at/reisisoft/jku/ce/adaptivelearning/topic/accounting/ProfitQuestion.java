@@ -1,14 +1,15 @@
 package at.reisisoft.jku.ce.adaptivelearning.topic.accounting;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
-import at.reisisoft.jku.ce.adaptivelearning.xml.XMLQuestionData;
+import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
+import at.reisisoft.jku.ce.adaptivelearning.xml.topic.accounting.XmlProfitQuestion;
 
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 
 public class ProfitQuestion extends GridLayout implements
-IQuestion<ProfitDataStorage> {
+		IQuestion<ProfitDataStorage> {
 
 	private static final long serialVersionUID = 6373936654529246422L;
 	private ProfitDataStorage solution;
@@ -62,9 +63,9 @@ IQuestion<ProfitDataStorage> {
 	}
 
 	@Override
-	public XMLQuestionData<ProfitDataStorage> toXMLRepresentation() {
-		return new XMLQuestionData<ProfitDataStorage>(getSolution(),
-				getQuestionText(), getDifficulty());
+	public XmlQuestionData<ProfitDataStorage> toXMLRepresentation() {
+		return new XmlProfitQuestion(getSolution(), getQuestionText(),
+				getDifficulty());
 	}
 
 }
