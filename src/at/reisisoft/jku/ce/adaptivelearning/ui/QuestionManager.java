@@ -7,8 +7,8 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 
-public class QuestionManager<Question extends Component & IQuestion<? extends AnswerStorage>>
-		extends ExtBorderLayout {
+public class QuestionManager<Question extends IQuestion<? extends AnswerStorage>>
+extends ExtBorderLayout {
 
 	private static final long serialVersionUID = -4764723794449575244L;
 	private SingleComponentLayout questionHolder = new SingleComponentLayout();
@@ -27,15 +27,15 @@ public class QuestionManager<Question extends Component & IQuestion<? extends An
 	/**
 	 *
 	 * @param question
-	 *            MUST be of Type Component AND of IQuestion<? extends
-	 *            IAnswerStorage>
+	 *            A question which is a component as well
 	 */
-	public void addQuestion(Object question) {
+	public <QuestionComponent extends IQuestion<? extends AnswerStorage> & Component> void addQuestion(
+			QuestionComponent question) {
 		if (!(question instanceof Component && question instanceof IQuestion)
 				|| question == null) {
 			throw new IllegalArgumentException(
 					"question MUST be of Type Component AND of IQuestion<? extends IAnswerStorage>");
 		}
-		addComponent((Component) question);
+		addComponent(question);
 	}
 }

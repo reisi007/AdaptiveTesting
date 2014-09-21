@@ -9,6 +9,7 @@ import java.io.Serializable;
  * @author Florian
  *
  */
+
 public abstract class AnswerStorage implements Serializable {
 	private static final long serialVersionUID = -3635192249644400913L;
 }
