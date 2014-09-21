@@ -18,7 +18,8 @@ public class AccountNumberInputField extends TextField implements
 
 	public AccountNumberInputField() {
 		addTextChangeListener(this);
-		setTextChangeEventMode(TextChangeEventMode.LAZY);
+		setTextChangeEventMode(TextChangeEventMode.TIMEOUT);
+		setTextChangeTimeout(1000);
 	}
 
 	public void addListener(ValidValueChangedListener<Integer> listener) {

@@ -1,6 +1,14 @@
 package at.reisisoft.jku.ce.adaptivelearning.core;
 
-public interface IQuestion<DataStorage extends IAnswerStorage> {
+import java.io.ByteArrayOutputStream;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
+import at.reisisoft.jku.ce.adaptivelearning.xml.XMLQuestionData;
+
+public interface IQuestion<DataStorage extends AnswerStorage> {
 	/**
 	 *
 	 * @return The right answer to the question
@@ -26,4 +34,26 @@ public interface IQuestion<DataStorage extends IAnswerStorage> {
 	 * @return The difficulty. -INF the easiest, +INF the hardest
 	 */
 	public float getDifficulty();
+
+	/**
+	 *
+	 * @return A representation of the question, which can be parsed to XML
+	 */
+	public XMLQuestionData<DataStorage> toXMLRepresentation();
+
+	/**
+	 *
+	 * @return XML as String
+	 * @throws JAXBException
+	 *             Exception creating XML
+	 */
+	public default String toXML() throws JAXBException {
+		XMLQuestionData<DataStorage> xmlRepresentation = toXMLRepresentation();
+		JAXBContext context = JAXBContext.newInstance(
+				xmlRepresentation.getClass(), getSolution().getClass());
+		Marshaller marshaller = context.createMarshaller();
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		marshaller.marshal(xmlRepresentation, byteArrayOutputStream);
+		return new String(byteArrayOutputStream.toByteArray());
+	}
 }

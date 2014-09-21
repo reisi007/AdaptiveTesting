@@ -6,7 +6,6 @@ import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.test.AccountingMock
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.test.ProfitMockquestion;
 import at.reisisoft.jku.ce.adaptivelearning.ui.MainUI;
 import at.reisisoft.jku.ce.adaptivelearning.ui.QuestionManager;
-import at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting.AccountingQuestionmanager;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -48,8 +47,8 @@ public class VaadinUI extends UI {
 	}
 
 	private void questionManagerTest(MainUI mainUI) {
-		QuestionManager manager = new AccountingQuestionmanager("Test test",
-				this);
+
+		QuestionManager<?> manager = new QuestionManager("Test test");
 		mainUI.addComponent(manager);
 		AccountingMockQuestion question = new AccountingMockQuestion(3, 2, this);
 		manager.addQuestion(question);

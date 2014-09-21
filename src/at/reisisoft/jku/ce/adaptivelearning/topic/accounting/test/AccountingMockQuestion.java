@@ -1,5 +1,6 @@
 package at.reisisoft.jku.ce.adaptivelearning.topic.accounting.test;
 
+import at.reisisoft.jku.ce.adaptivelearning.core.MockQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.AccountRecordData;
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.AccountingDataStorage;
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.AccountingQuestion;

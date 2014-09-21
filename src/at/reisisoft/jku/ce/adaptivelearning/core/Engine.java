@@ -8,7 +8,7 @@ import java.util.Stack;
  * @author Florian
  *
  */
-public class Engine<Question extends IQuestion<? extends IAnswerStorage>> {
+public class Engine<Question extends IQuestion<? extends AnswerStorage>> {
 	private Stack<HistoryEntry> history = new Stack<>();
 
 	public class HistoryEntry {

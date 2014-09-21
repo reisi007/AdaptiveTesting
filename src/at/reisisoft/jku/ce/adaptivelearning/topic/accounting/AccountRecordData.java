@@ -2,11 +2,14 @@ package at.reisisoft.jku.ce.adaptivelearning.topic.accounting;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement(name = "accountRecordData")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class AccountRecordData implements Serializable {
-	@XmlTransient
 	private static final long serialVersionUID = -6679031880487687770L;
 
 	@Override
@@ -16,7 +19,7 @@ public class AccountRecordData implements Serializable {
 				+ '€';
 	}
 
-	@XmlElement(name = "account")
+	@XmlElement(name = "accountName")
 	public final String accountName;
 	@XmlElement(name = "amount")
 	public final float value;

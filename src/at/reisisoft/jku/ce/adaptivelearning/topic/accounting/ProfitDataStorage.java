@@ -1,10 +1,8 @@
 package at.reisisoft.jku.ce.adaptivelearning.topic.accounting;
 
-import java.io.Serializable;
+import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 
-import at.reisisoft.jku.ce.adaptivelearning.core.IAnswerStorage;
-
-public class ProfitDataStorage implements IAnswerStorage, Serializable {
+public class ProfitDataStorage extends AnswerStorage {
 
 	private static final long serialVersionUID = 3127620913952575646L;
 	private ProfitPossibleAnswers value;

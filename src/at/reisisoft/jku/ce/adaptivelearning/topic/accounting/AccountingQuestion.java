@@ -6,9 +6,10 @@ import java.util.List;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting.AccountingRecordInputFields;
 import at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting.AccountingRecordInputGrid;
+import at.reisisoft.jku.ce.adaptivelearning.xml.XMLQuestionData;
 
 public class AccountingQuestion extends AccountingRecordInputGrid implements
-IQuestion<AccountingDataStorage> {
+		IQuestion<AccountingDataStorage> {
 	private static final long serialVersionUID = 5932474069705038565L;
 	private String questionText;
 	private float difficulty = 0;
@@ -117,6 +118,12 @@ IQuestion<AccountingDataStorage> {
 		this.questionText = questionText;
 	}
 
+	@Override
+	public XMLQuestionData<AccountingDataStorage> toXMLRepresentation() {
+		return new XMLQuestionData<AccountingDataStorage>(getSolution(),
+				getQuestionText(), getDifficulty());
+	}
+
 	/*
 	 * public String toXML() throws JAXBException { JAXBContext context =
 	 * JAXBContext.newInstance(this.getClass()); Marshaller marshaller =
@@ -124,7 +131,7 @@ IQuestion<AccountingDataStorage> {
 	 * new ByteArrayOutputStream(); marshaller.marshal(this,
 	 * byteArrayOutputStream); return new
 	 * String(byteArrayOutputStream.toByteArray()); }
-	 *
+	 * 
 	 * public static AccountingQuestion fromXML(String xml) throws JAXBException
 	 * { JAXBContext context =
 	 * JAXBContext.newInstance(AccountingQuestion.class); Unmarshaller

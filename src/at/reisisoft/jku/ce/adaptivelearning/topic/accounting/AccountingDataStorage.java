@@ -1,12 +1,19 @@
 package at.reisisoft.jku.ce.adaptivelearning.topic.accounting;
 
-import java.io.Serializable;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-import at.reisisoft.jku.ce.adaptivelearning.core.IAnswerStorage;
+import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 
-public class AccountingDataStorage implements IAnswerStorage, Serializable {
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "accountingRecord")
+public class AccountingDataStorage extends AnswerStorage {
 	private static final long serialVersionUID = -8179746363246548456L;
+	@XmlElement(name = "debit")
 	private AccountRecordData[] soll = new AccountRecordData[0];
+	@XmlElement(name = "credit")
 	private AccountRecordData[] haben = new AccountRecordData[0];
 
 	public AccountingDataStorage() {

@@ -1,17 +1,21 @@
 package at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting;
 
+import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
+import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.ui.QuestionManager;
 
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 
-public class AccountingQuestionmanager extends QuestionManager {
+public class AccountingQuestionManager<Question extends Component & IQuestion<? extends AnswerStorage>>
+extends QuestionManager<Question> {
 
-	public AccountingQuestionmanager(String quizName, UI ui) {
+	public AccountingQuestionManager(String quizName, UI ui) {
 		super(quizName);
 		Button openKontenplan = new Button("Open Kontenplan");
 		openKontenplan
