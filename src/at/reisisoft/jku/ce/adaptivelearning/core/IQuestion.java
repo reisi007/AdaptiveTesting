@@ -1,6 +1,7 @@
 package at.reisisoft.jku.ce.adaptivelearning.core;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -56,6 +57,11 @@ public interface IQuestion<DataStorage extends AnswerStorage> {
 		Marshaller marshaller = context.createMarshaller();
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		marshaller.marshal(xmlRepresentation, byteArrayOutputStream);
-		return new String(byteArrayOutputStream.toByteArray());
+		try {
+			return new String(byteArrayOutputStream.toByteArray(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// Should never happen, as "UTF-8" is hard coded
+			return "FAILED " + e.getMessage();
+		}
 	}
 }
