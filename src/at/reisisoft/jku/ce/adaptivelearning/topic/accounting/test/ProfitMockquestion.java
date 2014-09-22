@@ -1,8 +1,8 @@
 package at.reisisoft.jku.ce.adaptivelearning.topic.accounting.test;
 
-import at.reisisoft.jku.ce.adaptivelearning.core.MockQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.ProfitDataStorage;
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.ProfitQuestion;
+import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.MockQuestion;
 
 import com.vaadin.ui.UI;
 

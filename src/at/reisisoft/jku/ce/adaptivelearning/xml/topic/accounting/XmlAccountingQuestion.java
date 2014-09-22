@@ -7,7 +7,7 @@ import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
 
 @XmlRootElement(name = "accountingtQuestionDataStorage")
 public class XmlAccountingQuestion extends
-		XmlQuestionData<AccountingDataStorage> {
+XmlQuestionData<AccountingDataStorage> {
 
 	private static final long serialVersionUID = 3262285204313858210L;
 
@@ -20,8 +20,8 @@ public class XmlAccountingQuestion extends
 	}
 
 	@Override
-	public AccountingDataStorage getEmptyDataStorage() {
-		return new AccountingDataStorage();
+	public Class<AccountingDataStorage> getDataStorageClass() {
+		return AccountingDataStorage.class;
 	}
 
 }

@@ -1,10 +1,16 @@
 package at.reisisoft.jku.ce.adaptivelearning.topic.accounting;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ProfitDataStorage extends AnswerStorage {
 
 	private static final long serialVersionUID = 3127620913952575646L;
+	@XmlElement(name = "answer")
 	private ProfitPossibleAnswers value;
 
 	public ProfitDataStorage() {

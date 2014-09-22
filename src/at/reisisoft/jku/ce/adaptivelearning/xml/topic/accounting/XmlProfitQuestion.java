@@ -20,8 +20,8 @@ public class XmlProfitQuestion extends XmlQuestionData<ProfitDataStorage> {
 	}
 
 	@Override
-	public ProfitDataStorage getEmptyDataStorage() {
-		return new ProfitDataStorage();
+	public Class<ProfitDataStorage> getDataStorageClass() {
+		return ProfitDataStorage.class;
 	}
 
 }

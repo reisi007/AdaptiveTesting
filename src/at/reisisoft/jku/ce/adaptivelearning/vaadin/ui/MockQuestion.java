@@ -1,11 +1,13 @@
-package at.reisisoft.jku.ce.adaptivelearning.core;
+package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 
 import java.util.Arrays;
 
-import at.reisisoft.jku.ce.adaptivelearning.ui.ExtBorderLayout;
+import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
+import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
 
 import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
@@ -28,7 +30,6 @@ public abstract class MockQuestion<Question extends IQuestion<T> & Component, T 
 		Button button = new Button("Display current user's solution");
 		addComponent(button, Constraint.SOUTH);
 		TextArea textArea = new TextArea("Question text");
-
 		textArea.setSizeFull();
 		addComponent(textArea, Constraint.NORTH);
 		button.setSizeFull();
@@ -39,9 +40,10 @@ public abstract class MockQuestion<Question extends IQuestion<T> & Component, T 
 			window.setContent(layout);
 			// Update questionText
 			textArea.addTextChangeListener(ev -> questionText = ev.getText());
+			textArea.setTextChangeEventMode(TextChangeEventMode.EAGER);
 			Label label;
 			try {
-				label = new Label(toXML(), ContentMode.XML);
+				label = new Label(toXML());
 			} catch (Exception e1) {
 				label = new Label(
 						"<h1>Error parsing XML</h1><p>" + e1.getMessage()
@@ -79,6 +81,7 @@ public abstract class MockQuestion<Question extends IQuestion<T> & Component, T 
 	public XmlQuestionData<T> toXMLRepresentation() {
 		XmlQuestionData<T> xml = question.toXMLRepresentation();
 		xml.setQuestion(questionText != null ? questionText : "");
+		xml.setDataStorage(getUserAnswer());
 		return xml;
 	}
 }

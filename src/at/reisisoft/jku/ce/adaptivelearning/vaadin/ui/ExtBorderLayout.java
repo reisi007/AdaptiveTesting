@@ -1,4 +1,4 @@
-package at.reisisoft.jku.ce.adaptivelearning.ui;
+package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 
 import org.vaadin.addon.borderlayout.BorderLayout;
 

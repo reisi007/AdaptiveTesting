@@ -1,4 +1,4 @@
-package at.reisisoft.jku.ce.adaptivelearning.ui;
+package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -50,7 +50,7 @@ public class MainUI extends ExtBorderLayout {
 		// Set size full
 		southLayout.setSizeFull();
 		southLayout.addComponent(licences, 0, 0);
-		southLayout.addComponent(new Label("© Reisisoft 2014 - "
+		southLayout.addComponent(new Label("Â© Reisisoft 2014 - "
 				+ new GregorianCalendar().get(Calendar.YEAR)), 1, 0);
 		// Add southlayout to the main Layout
 		addComponent(southLayout, Constraint.SOUTH);

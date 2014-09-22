@@ -4,9 +4,9 @@ import javax.servlet.annotation.WebServlet;
 
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.test.AccountingMockQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.test.ProfitMockQuestion;
-import at.reisisoft.jku.ce.adaptivelearning.ui.MainUI;
-import at.reisisoft.jku.ce.adaptivelearning.ui.QuestionManager;
-import at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting.AccountingQuestionManager;
+import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.MainUI;
+import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.QuestionManager;
+import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.topic.accounting.AccountingQuestionManager;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -37,7 +37,7 @@ public class VaadinUI extends UI {
 		// profitLayouttest(layout);
 
 		// Uncomment next line: Question manager with single question
-		questionManagerTest2(layout);
+		questionManagerTest1(layout);
 	}
 
 	private void accountingLayoutTest(MainUI mainUI) {

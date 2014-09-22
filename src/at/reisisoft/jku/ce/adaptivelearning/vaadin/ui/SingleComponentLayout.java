@@ -1,4 +1,4 @@
-package at.reisisoft.jku.ce.adaptivelearning.ui;
+package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;

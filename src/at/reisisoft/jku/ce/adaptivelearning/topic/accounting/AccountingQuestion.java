@@ -4,13 +4,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
-import at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting.AccountingRecordInputFields;
-import at.reisisoft.jku.ce.adaptivelearning.ui.topic.accounting.AccountingRecordInputGrid;
+import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.topic.accounting.AccountingRecordInputFields;
+import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.topic.accounting.AccountingRecordInputGrid;
 import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
 import at.reisisoft.jku.ce.adaptivelearning.xml.topic.accounting.XmlAccountingQuestion;
 
 public class AccountingQuestion extends AccountingRecordInputGrid implements
-		IQuestion<AccountingDataStorage> {
+IQuestion<AccountingDataStorage> {
 	private static final long serialVersionUID = 5932474069705038565L;
 	private String questionText;
 	private float difficulty = 0;

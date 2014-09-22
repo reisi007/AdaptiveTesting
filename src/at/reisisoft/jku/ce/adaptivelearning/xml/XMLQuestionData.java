@@ -5,12 +5,14 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "questionData")
 public abstract class XmlQuestionData<DataStorage extends AnswerStorage>
-implements Serializable {
+		implements Serializable {
 
 	private static final long serialVersionUID = 5422318817914536294L;
 	@XmlElement(name = "dataStorage", nillable = true)
@@ -24,11 +26,14 @@ implements Serializable {
 		this(null, "", 0);
 	}
 
-	@SuppressWarnings("unchecked")
 	public XmlQuestionData(DataStorage dataStorage, String question,
 			float difficulty) {
 		if (dataStorage == null) {
-			dataStorage = getEmptyDataStorage();
+			try {
+				dataStorage = getDataStorageClass().newInstance();
+			} catch (InstantiationException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
 		}
 		this.dataStorage = dataStorage;
 		this.difficulty = difficulty;
@@ -63,7 +68,7 @@ implements Serializable {
 		this.difficulty = difficulty;
 	}
 
-	public abstract DataStorage getEmptyDataStorage();
+	public abstract Class<DataStorage> getDataStorageClass();
 
 	// public static void main(String[] args) throws JAXBException {
 	// ByteArrayOutputStream byteArrayOutputStream = new

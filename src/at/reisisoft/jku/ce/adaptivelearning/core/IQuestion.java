@@ -50,7 +50,7 @@ public interface IQuestion<DataStorage extends AnswerStorage> {
 	public default String toXML() throws JAXBException {
 		XmlQuestionData<DataStorage> xmlRepresentation = toXMLRepresentation();
 		Class<? extends AnswerStorage> dataStorageClass = xmlRepresentation
-				.getEmptyDataStorage().getClass();
+				.getDataStorageClass();
 		JAXBContext context = JAXBContext.newInstance(
 				xmlRepresentation.getClass(), dataStorageClass);
 		Marshaller marshaller = context.createMarshaller();
