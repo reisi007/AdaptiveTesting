@@ -55,6 +55,7 @@ public class VaadinUI extends UI {
 		mainUI.addComponent(manager);
 		AccountingMockQuestion question = new AccountingMockQuestion(3, 2, this);
 		manager.addQuestion(question);
+		manager.startQuiz();
 	}
 
 	private void questionManagerTest2(MainUI mainUI) {
@@ -64,5 +65,6 @@ public class VaadinUI extends UI {
 		mainUI.addComponent(manager);
 		ProfitMockQuestion question = new ProfitMockQuestion(this);
 		manager.addQuestion(question);
+		manager.startQuiz();
 	}
 }

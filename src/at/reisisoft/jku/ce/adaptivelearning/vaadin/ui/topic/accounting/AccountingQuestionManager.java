@@ -16,20 +16,20 @@ public class AccountingQuestionManager extends QuestionManager {
 		openKontenplan.addClickListener(e -> {
 			openKontenplan.setEnabled(false);
 			// Create Window with layout
-				Window window = new Window("Kontenplan");
-				GridLayout layout = new GridLayout(1, 1);
-				layout.addComponent(AccountingDataProvider.getInstance()
-						.toHtmlTable());
-				layout.setSizeFull();
-				window.setContent(layout);
-				window.center();
-				window.setWidth("40%");
-				window.setHeight("80%");
-				window.setResizable(false);
-				window.addCloseListener(e1 -> openKontenplan.setEnabled(true));
-				ui.addWindow(window);
+			Window window = new Window("Kontenplan");
+			GridLayout layout = new GridLayout(1, 1);
+			layout.addComponent(AccountingDataProvider.getInstance()
+					.toHtmlTable());
+			layout.setSizeFull();
+			window.setContent(layout);
+			window.center();
+			window.setWidth("60%");
+			window.setHeight("80%");
+			window.setResizable(false);
+			window.addCloseListener(e1 -> openKontenplan.setEnabled(true));
+			ui.addWindow(window);
 
-			});
+		});
 		addHelpButton(openKontenplan);
 
 		// StringBuilder sb = new StringBuilder();

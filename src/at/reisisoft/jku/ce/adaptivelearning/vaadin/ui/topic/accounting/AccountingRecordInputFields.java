@@ -27,7 +27,7 @@ public class AccountingRecordInputFields extends GridLayout {
 		ddAccountNames = new ComboBox("Account name:");
 		ddAccountNames.addItems((Object[]) AccountingDataProvider.getInstance()
 				.getAllAccountNames());
-		ddAccountNames.setWidth("15em");
+		ddAccountNames.setWidth("20em");
 		addComponent(ddAccountNames, 1, 0);
 		// Add Curreny field
 		currencyTextBox = new CurrencyTextBox();
