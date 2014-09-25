@@ -40,7 +40,7 @@ public class RProvider {
 					throw new ScriptException("R is not present @ " + rPath);
 				}
 				rPath.append('\\').append(max.get()).append('\\')
-				.append("bin\\");
+						.append("bin\\");
 
 				if (!"x86".equals(System.getProperty("os.arch"))) {
 					// 64 bit VM -> 64 bit R required
@@ -85,6 +85,7 @@ public class RProvider {
 	public static void main(String[] args) throws ScriptException {
 		// Prerequirement
 		RProvider rProvider = new RProvider();
+		rProvider.getRCaller();
 		RCode code = rProvider.getRCode();
 		// Doing R magic
 		code.addDoubleArray("x", new double[] { 1.0, 2.0, 3.0, 4.0, 50.0 });

@@ -2,6 +2,7 @@ package at.reisisoft.jku.ce.adaptivelearning;
 
 import javax.servlet.annotation.WebServlet;
 
+import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.AccountingQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.test.AccountingMockQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.test.ProfitMockQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.MainUI;
@@ -38,6 +39,7 @@ public class VaadinUI extends UI {
 
 		// Uncomment next line: Question manager with single question
 		questionManagerTest1(layout);
+
 	}
 
 	private void accountingLayoutTest(MainUI mainUI) {
@@ -53,7 +55,8 @@ public class VaadinUI extends UI {
 		QuestionManager manager = new AccountingQuestionManager("Test test",
 				this);
 		mainUI.addComponent(manager);
-		AccountingMockQuestion question = new AccountingMockQuestion(3, 2, this);
+		AccountingQuestion question = new AccountingQuestion();
+		question.setQuestionText("123 Test");
 		manager.addQuestion(question);
 		manager.startQuiz();
 	}

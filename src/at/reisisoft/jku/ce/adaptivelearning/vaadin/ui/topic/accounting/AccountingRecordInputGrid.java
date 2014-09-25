@@ -6,6 +6,7 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 
 public abstract class AccountingRecordInputGrid extends SingleComponentLayout {
 	public enum Side {
@@ -14,7 +15,7 @@ public abstract class AccountingRecordInputGrid extends SingleComponentLayout {
 
 	private static final long serialVersionUID = 3423260539583285740L;
 	// Create all necessary layouts
-	private GridLayout outer = new GridLayout(1, 2);
+	private VerticalLayout outer = new VerticalLayout();
 	private GridLayout inner = new GridLayout(2, 1);
 	private GridLayout right = new GridLayout(1, 4);
 	private GridLayout left = new GridLayout(1, 4);
@@ -22,11 +23,10 @@ public abstract class AccountingRecordInputGrid extends SingleComponentLayout {
 	public AccountingRecordInputGrid() {
 		// Make the layout
 		addComponent(outer);
-		outer.addComponent(inner, 0, 1);
+		outer.addComponent(inner);
 		inner.addComponent(left, 0, 0);
 		inner.addComponent(right, 1, 0);
 		// Make layout size full
-		outer.setSizeFull();
 		inner.setSizeFull();
 		right.setSizeFull();
 		left.setSizeFull();
@@ -40,8 +40,8 @@ public abstract class AccountingRecordInputGrid extends SingleComponentLayout {
 		current.addComponent(component, 0, position + 1);
 	}
 
-	public void addQuestionText(String text) {
-		outer.addComponent(new Label(text, ContentMode.HTML), 0, 0);
+	protected void addQuestionText(String text) {
+		outer.addComponent(new Label(text, ContentMode.HTML), 0);
 	}
 
 }

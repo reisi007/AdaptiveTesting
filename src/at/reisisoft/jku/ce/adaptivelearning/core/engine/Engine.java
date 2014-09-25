@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
@@ -24,6 +25,13 @@ public class Engine {
 	private final float[] upperBounds;
 	private final List<IQuestion<? extends AnswerStorage>>[] bags;
 	private int questionNumber;
+
+	private double[][] getRmatrix() {
+		return history.stream()
+				.map(e -> new double[] { e.difficulty, e.isCorrect ? 1d : 0d })
+				.collect(Collectors.toList())
+				.toArray(new double[history.size()][]);
+	}
 
 	/**
 	 * Using -1.6f, -0.2f, 1.2f, 2.5f as explicit upper bounds
@@ -127,7 +135,7 @@ public class Engine {
 	}
 
 	public void start() {
-		fireQuestionChangeListener(getQuestion((upperBounds.length + 1) / 2));
+		fireQuestionChangeListener(getQuestion((upperBounds.length + 1) / 2 - 1));
 
 	}
 

@@ -10,7 +10,7 @@ import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
 import at.reisisoft.jku.ce.adaptivelearning.xml.topic.accounting.XmlAccountingQuestion;
 
 public class AccountingQuestion extends AccountingRecordInputGrid implements
-IQuestion<AccountingDataStorage> {
+		IQuestion<AccountingDataStorage> {
 	private static final long serialVersionUID = 5932474069705038565L;
 	private String questionText;
 	private float difficulty = 0;
@@ -117,6 +117,7 @@ IQuestion<AccountingDataStorage> {
 
 	public void setQuestionText(String questionText) {
 		this.questionText = questionText;
+		addQuestionText(questionText);
 	}
 
 	@Override
