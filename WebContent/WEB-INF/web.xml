@@ -9,4 +9,8 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+<context-param>
+  <param-name>at.reisisoft.jku.ce.adaptivelearning.questionfolder</param-name>
+  <param-value>D:\JKU\ce\vaadin\questions</param-value>
+</context-param>
 </web-app>

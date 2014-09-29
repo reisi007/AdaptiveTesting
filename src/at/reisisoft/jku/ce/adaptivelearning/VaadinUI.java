@@ -1,5 +1,8 @@
 package at.reisisoft.jku.ce.adaptivelearning;
 
+import java.io.File;
+
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.AccountingQuestion;
@@ -21,7 +24,32 @@ public class VaadinUI extends UI {
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = VaadinUI.class)
 	public static class Servlet extends VaadinServlet {
+		@Override
+		protected void servletInitialized() throws ServletException {
+			super.servletInitialized();
+			// Get the question folder as defined in WEB-INF/web.xml
+			questionFolderName = getServletConfig().getServletContext()
+					.getInitParameter(initKey);
+			File file = new File(questionFolderName);
+			boolean isWorking = file.exists() && file.isDirectory()
+					|| file.mkdirs();
+			if (!isWorking) {
+				questionFolderName = null;
+			}
+		}
 
+		private static String questionFolderName = null;
+		private final static String initKey = "at.reisisoft.jku.ce.adaptivelearning.questionfolder";
+
+		/**
+		 * Gets the question folder name
+		 *
+		 * @return NULL if not set, or the String is not a valid folder / a
+		 *         folder at this location could not be created.
+		 */
+		public static String getQuestionFolderName() {
+			return questionFolderName;
+		}
 	}
 
 	@Override
@@ -30,7 +58,6 @@ public class VaadinUI extends UI {
 		MainUI layout = new MainUI(this);
 		layout.setMargin(true);
 		setContent(layout);
-
 		// Uncomment next line: Mock Accounting Question
 		// accountingLayoutTest(layout);
 
