@@ -3,6 +3,10 @@ package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import at.reisisoft.jku.ce.adaptivelearning.VaadinUI;
+
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -12,7 +16,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
-public class MainUI extends ExtBorderLayout {
+public class MainUI extends ExtBorderLayout implements View {
 
 	private static final long serialVersionUID = 4966805861748123750L;
 
@@ -55,5 +59,10 @@ public class MainUI extends ExtBorderLayout {
 		// Add southlayout to the main Layout
 		addComponent(southLayout, Constraint.SOUTH);
 
+	}
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		VaadinUI.setCurrentPageTitle(event);
 	}
 }

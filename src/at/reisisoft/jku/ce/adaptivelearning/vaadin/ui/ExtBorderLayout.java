@@ -12,5 +12,4 @@ public class ExtBorderLayout extends BorderLayout {
 	public void addComponent(Component c) {
 		addComponent(c, Constraint.CENTER);
 	}
-
 }

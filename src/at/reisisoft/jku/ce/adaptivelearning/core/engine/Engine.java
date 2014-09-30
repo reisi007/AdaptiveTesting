@@ -2,6 +2,7 @@ package at.reisisoft.jku.ce.adaptivelearning.core.engine;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ public class Engine {
 	private final float[] upperBounds;
 	private final List<IQuestion<? extends AnswerStorage>>[] bags;
 	private int questionNumber;
+	private IQuestion<? extends AnswerStorage> question;
 
 	private double[][] getRmatrix() {
 		return history.stream()
@@ -120,22 +122,32 @@ public class Engine {
 	 *            A question, answered by the user
 	 * @return True if the question is answered correctly, false if not
 	 */
-	private boolean addQuestionToHistory(IQuestion<?> question) {
+	private boolean addQuestionToHistory(
+			IQuestion<? extends AnswerStorage> question) {
 		HistoryEntry entry = new HistoryEntry(question);
 		history.push(entry);
 		return entry.isCorrect;
 	}
 
 	public void requestCalculation() {
-		// TODO Implement
-		Notification
-		.show("ERROR - Not implemented",
-				"This would check the current question and would promt another one or the result",
-				Type.TRAY_NOTIFICATION);
+		// Evaluate current question
+		boolean lastCorrect = addQuestionToHistory(question);
+		// Dummy calculation -> get Random next question
+		IQuestion<? extends AnswerStorage> nextQuestion = getQuestion(lastCorrect ? 1
+				: 0);
+		if (nextQuestion == null) {
+			ResultFiredArgs args = new ResultFiredArgs(true,
+					Collections.unmodifiableList(history), 0);
+			fireResultListener(args);
+		} else {
+			question = nextQuestion;
+			fireQuestionChangeListener(nextQuestion);
+		}
 	}
 
 	public void start() {
-		fireQuestionChangeListener(getQuestion((upperBounds.length + 1) / 2 - 1));
+		question = getQuestion((upperBounds.length + 1) / 2 - 1);
+		fireQuestionChangeListener(question);
 
 	}
 
@@ -162,7 +174,7 @@ public class Engine {
 		List<IQuestion<? extends AnswerStorage>> list = bags[arrayIndex];
 		int listSize = list.size();
 		if (listSize == 0) {
-			int nextArrayIndex = (arrayIndex + 1) % (bags.length + 1);
+			int nextArrayIndex = (arrayIndex + 1) % bags.length;
 			return getQuestion(nextArrayIndex);
 		}
 		int index = (int) Math.round(Math.random() * (listSize - 1));
