@@ -1,16 +1,18 @@
 package at.reisisoft.jku.ce.adaptivelearning.core.engine;
 
+import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
 
 public class HistoryEntry {
 
-	public final boolean isCorrect;
+	public final double points;
 	public final double difficulty;
+	public final IQuestion<? extends AnswerStorage> question;
 
-	public HistoryEntry(IQuestion<?> question) {
+	public HistoryEntry(IQuestion<? extends AnswerStorage> question) {
+		points = question.checkUserAnswer();
 		difficulty = question.getDifficulty();
-		isCorrect = question.checkUserAnswer();
-
+		this.question = question;
 	}
 
 	@Override
@@ -20,7 +22,9 @@ public class HistoryEntry {
 		long temp;
 		temp = Double.doubleToLongBits(difficulty);
 		result = prime * result + (int) (temp ^ temp >>> 32);
-		result = prime * result + (isCorrect ? 1231 : 1237);
+		temp = Double.doubleToLongBits(points);
+		result = prime * result + (int) (temp ^ temp >>> 32);
+		result = prime * result + (question == null ? 0 : question.hashCode());
 		return result;
 	}
 
@@ -40,7 +44,15 @@ public class HistoryEntry {
 				.doubleToLongBits(other.difficulty)) {
 			return false;
 		}
-		if (isCorrect != other.isCorrect) {
+		if (Double.doubleToLongBits(points) != Double
+				.doubleToLongBits(other.points)) {
+			return false;
+		}
+		if (question == null) {
+			if (other.question != null) {
+				return false;
+			}
+		} else if (!question.equals(other.question)) {
 			return false;
 		}
 		return true;

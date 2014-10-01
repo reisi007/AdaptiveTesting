@@ -1,4 +1,4 @@
-package at.reisisoft.jku.ce.adaptivelearning.core.engine;
+package at.reisisoft.jku.ce.adaptivelearning.core.engine.engines;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +9,11 @@ import java.util.stream.Collectors;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
+import at.reisisoft.jku.ce.adaptivelearning.core.engine.HistoryEntry;
+import at.reisisoft.jku.ce.adaptivelearning.core.engine.ICurrentQuestionChangeListener;
+import at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine;
+import at.reisisoft.jku.ce.adaptivelearning.core.engine.IResultFiredListener;
+import at.reisisoft.jku.ce.adaptivelearning.core.engine.ResultFiredArgs;
 
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
@@ -19,7 +24,7 @@ import com.vaadin.ui.Notification.Type;
  * @author Florian
  *
  */
-public class Engine {
+public class SimpleEngine implements IEngine {
 	private Stack<HistoryEntry> history = new Stack<>();
 	private List<IResultFiredListener> resultFiredListeners = new ArrayList<>();
 	private List<ICurrentQuestionChangeListener> currentQuestionChangeListeners = new ArrayList<>();
@@ -30,7 +35,7 @@ public class Engine {
 
 	private double[][] getRmatrix() {
 		return history.stream()
-				.map(e -> new double[] { e.difficulty, e.isCorrect ? 1d : 0d })
+				.map(e -> new double[] { e.difficulty, e.points })
 				.collect(Collectors.toList())
 				.toArray(new double[history.size()][]);
 	}
@@ -38,7 +43,7 @@ public class Engine {
 	/**
 	 * Using -1.6f, -0.2f, 1.2f, 2.5f as explicit upper bounds
 	 */
-	public Engine() {
+	public SimpleEngine() {
 		this(-1.6f, -0.2f, 1.2f, 2.5f);
 	}
 
@@ -50,7 +55,7 @@ public class Engine {
 	 */
 
 	@SuppressWarnings("unchecked")
-	public Engine(float... upperBounds) {
+	public SimpleEngine(float... upperBounds) {
 		Arrays.sort(upperBounds);
 		this.upperBounds = upperBounds;
 		bags = new List[upperBounds.length + 1];
@@ -59,44 +64,79 @@ public class Engine {
 		}
 	}
 
-	/**
-	 *
-	 * @param question
-	 *            The question to add
-	 * @return Pool upper bound difficulty
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#addQuestionToPool
+	 * (at.reisisoft.jku.ce.adaptivelearning.core.IQuestion)
 	 */
-	public float addQuestionToPool(IQuestion<? extends AnswerStorage> question) {
+	@Override
+	public void addQuestionToPool(IQuestion<? extends AnswerStorage> question) {
 		if (question != null) {
 			questionNumber++;
 		}
 		for (int i = 0; i < upperBounds.length; i++) {
 			if (question.getDifficulty() <= upperBounds[i]) {
 				bags[i].add(question);
-				return upperBounds[i];
+				return;
 			}
 		}
 		// If the difficulty is higher than all upper bounds specified
 		bags[upperBounds.length].add(question);
-		return Float.POSITIVE_INFINITY;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#
+	 * addQuestionChangeListener
+	 * (at.reisisoft.jku.ce.adaptivelearning.core.engine
+	 * .ICurrentQuestionChangeListener)
+	 */
+	@Override
 	public void addQuestionChangeListener(
 			ICurrentQuestionChangeListener questionChangeListener) {
 		assert questionChangeListener != null;
 		currentQuestionChangeListeners.add(questionChangeListener);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#
+	 * addResultFiredListener
+	 * (at.reisisoft.jku.ce.adaptivelearning.core.engine.IResultFiredListener)
+	 */
+	@Override
 	public void addResultFiredListener(IResultFiredListener resultFiredListener) {
 		assert resultFiredListener != null;
 		resultFiredListeners.add(resultFiredListener);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#
+	 * removeQuestionChangeListener
+	 * (at.reisisoft.jku.ce.adaptivelearning.core.engine
+	 * .ICurrentQuestionChangeListener)
+	 */
+	@Override
 	public void removeQuestionChangeListener(
 			ICurrentQuestionChangeListener questionChangeListener) {
 		assert questionChangeListener != null;
 		currentQuestionChangeListeners.remove(questionChangeListener);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#
+	 * removeResultFiredListener
+	 * (at.reisisoft.jku.ce.adaptivelearning.core.engine.IResultFiredListener)
+	 */
+	@Override
 	public void removeResultFiredListener(
 			IResultFiredListener resultFiredListener) {
 		assert resultFiredListener != null;
@@ -122,16 +162,24 @@ public class Engine {
 	 *            A question, answered by the user
 	 * @return True if the question is answered correctly, false if not
 	 */
-	private boolean addQuestionToHistory(
+	private double addQuestionToHistory(
 			IQuestion<? extends AnswerStorage> question) {
 		HistoryEntry entry = new HistoryEntry(question);
 		history.push(entry);
-		return entry.isCorrect;
+		return entry.points;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#requestCalculation
+	 * ()
+	 */
+	@Override
 	public void requestCalculation() {
 		// Evaluate current question
-		boolean lastCorrect = addQuestionToHistory(question);
+		boolean lastCorrect = addQuestionToHistory(question) > 0;
 		// Dummy calculation -> get Random next question
 		IQuestion<? extends AnswerStorage> nextQuestion = getQuestion(lastCorrect ? 1
 				: 0);
@@ -145,6 +193,12 @@ public class Engine {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#start()
+	 */
+	@Override
 	public void start() {
 		question = getQuestion((upperBounds.length + 1) / 2 - 1);
 		fireQuestionChangeListener(question);

@@ -25,10 +25,16 @@ public interface IQuestion<DataStorage extends AnswerStorage> {
 
 	/**
 	 *
-	 * @return Checks if the user answer is the, or alternatively, one of the
-	 *         right answers
+	 * @return Validates the user answer. The returned value is the amount of
+	 *         points gained for this answer must be lower then getMaxPoints()
 	 */
-	public boolean checkUserAnswer();
+	public double checkUserAnswer();
+
+	/**
+	 *
+	 * @return The maximum number of points you can get with this question
+	 */
+	public double getMaxPoints();
 
 	/**
 	 *

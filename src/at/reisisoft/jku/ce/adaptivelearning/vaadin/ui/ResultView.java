@@ -36,9 +36,13 @@ public class ResultView extends VerticalLayout implements View {
 		table.addContainerProperty("Question difficulty", Double.class, null);
 		table.addContainerProperty("Result:", String.class, null);
 		List<HistoryEntry> entries = Lists.reverse(args.history);
+
 		for (HistoryEntry entry : entries) {
-			table.addItem(new Object[] { entry.difficulty,
-					isCorrect(entry.isCorrect) }, null);
+			table.addItem(
+					new Object[] {
+							entry.difficulty,
+							isCorrect(entry.points,
+									entry.question.getMaxPoints()) }, null);
 		}
 		int size = table.size();
 		if (size > 10) {
@@ -48,12 +52,13 @@ public class ResultView extends VerticalLayout implements View {
 		addComponent(table);
 		setComponentAlignment(table, Alignment.MIDDLE_CENTER);
 
-		addComponent(HtmlLabel.getCenteredLabel("h3", "Your skill level is: "
-				+ args.skillLevel));
+		addComponent(HtmlLabel.getCenteredLabel("h3",
+				"Your skill level is: <b>" + args.skillLevel + "</b>"));
 	}
 
-	private String isCorrect(boolean isCorrect) {
-		return isCorrect ? "Correct!" : "Incorrect!";
+	private String isCorrect(double points, double maxPoints) {
+		return points + " / " + maxPoints + " (" + 100 * points / maxPoints
+				+ "% )";
 	}
 
 	@Override

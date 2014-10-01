@@ -24,7 +24,6 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 @Theme("vaadin")
@@ -40,21 +39,19 @@ public class VaadinUI extends UI {
 		// Create Welcome Screen
 		MainUI mainScreen = new MainUI();
 		mainScreen.setMargin(true);
-		final VerticalLayout welcomeScreen = new VerticalLayout();
-		welcomeScreen.setSizeFull();
-
 		Button start = new Button("Start", e -> {
 			navigator.navigateTo(Views.TEST.toString());
 		});
-		welcomeScreen.addComponent(new HtmlLabel(HtmlUtils.center("h1",
+		start.setWidth("40%");
+		start.setHeight("40%");
+		mainScreen.addComponent(new HtmlLabel(HtmlUtils.center("h1",
 				"Welcome to " + productData)));
-		welcomeScreen
-				.addComponent(new HtmlLabel(HtmlUtils.center("h2",
-						"Click the <b>" + start.getCaption()
-								+ "</b> Button to start!")));
-		welcomeScreen.addComponent(start);
-		welcomeScreen.setComponentAlignment(start, Alignment.MIDDLE_CENTER);
-		mainScreen.addComponent(welcomeScreen);
+		mainScreen
+		.addComponent(new HtmlLabel(HtmlUtils.center("h2",
+				"Click the <b>" + start.getCaption()
+				+ "</b> Button to start!")));
+		mainScreen.addComponent(start);
+		mainScreen.setComponentAlignment(start, Alignment.MIDDLE_CENTER);
 
 		navigator.addView(Views.DEFAULT.toString(), mainScreen);
 		// Question view

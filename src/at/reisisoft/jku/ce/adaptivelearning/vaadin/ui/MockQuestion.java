@@ -17,7 +17,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public abstract class MockQuestion<Question extends IQuestion<T> & Component, T extends AnswerStorage>
-		extends ExtBorderLayout implements IQuestion<T> {
+		extends VerticalLayout implements IQuestion<T> {
 
 	private static final long serialVersionUID = 8387557147527424813L;
 	private final Question question;
@@ -25,13 +25,13 @@ public abstract class MockQuestion<Question extends IQuestion<T> & Component, T 
 
 	public MockQuestion(Question question, UI ui) {
 		this.question = question;
-		addComponent(question, Constraint.CENTER);
-		// Download the result
-		Button button = new Button("Display current user's solution");
-		addComponent(button, Constraint.SOUTH);
+
 		TextArea textArea = new TextArea("Question text");
 		textArea.setSizeFull();
-		addComponent(textArea, Constraint.NORTH);
+
+		// Download the result
+		Button button = new Button("Display current user's solution");
+
 		button.setSizeFull();
 		button.addClickListener(e -> {
 			Window window = new Window("Current user solution");
@@ -54,7 +54,10 @@ public abstract class MockQuestion<Question extends IQuestion<T> & Component, T 
 			window.center();
 			ui.addWindow(window);
 		});
-
+		// Add components to the UI
+		addComponent(textArea);
+		addComponent(question);
+		addComponent(button);
 	}
 
 	@Override
@@ -68,7 +71,7 @@ public abstract class MockQuestion<Question extends IQuestion<T> & Component, T 
 	}
 
 	@Override
-	public boolean checkUserAnswer() {
+	public double checkUserAnswer() {
 		return question.checkUserAnswer();
 	}
 
@@ -83,5 +86,10 @@ public abstract class MockQuestion<Question extends IQuestion<T> & Component, T 
 		xml.setQuestion(questionText != null ? questionText : "");
 		xml.setDataStorage(getUserAnswer());
 		return xml;
+	}
+
+	@Override
+	public double getMaxPoints() {
+		return question.getMaxPoints();
 	}
 }

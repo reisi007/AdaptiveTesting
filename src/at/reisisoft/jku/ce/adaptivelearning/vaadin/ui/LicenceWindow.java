@@ -23,8 +23,6 @@ public class LicenceWindow extends Window {
 		setContent(vLayout);
 		vLayout.setMargin(true);
 		// Add the 3rd party licences
-		addAddonLicence(new HtmlLink("http://vaadin.com/addon/borderlayout",
-				"BorderLayout", true), apache2);
 		addAddonLicence(new HtmlLink("http://www.mhsatman.com/rcaller.php",
 				"RCaller 2.0", true), lgpl3);
 	}

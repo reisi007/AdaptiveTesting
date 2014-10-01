@@ -55,8 +55,8 @@ public class ProfitQuestion extends GridLayout implements
 	}
 
 	@Override
-	public boolean checkUserAnswer() {
-		return solution.equals(getUserAnswer());
+	public double checkUserAnswer() {
+		return solution.equals(getUserAnswer()) ? 1d : 0d;
 	}
 
 	@Override
@@ -68,6 +68,11 @@ public class ProfitQuestion extends GridLayout implements
 	public XmlQuestionData<ProfitDataStorage> toXMLRepresentation() {
 		return new XmlProfitQuestion(getSolution(), getQuestionText(),
 				getDifficulty());
+	}
+
+	@Override
+	public double getMaxPoints() {
+		return 1d;
 	}
 
 }

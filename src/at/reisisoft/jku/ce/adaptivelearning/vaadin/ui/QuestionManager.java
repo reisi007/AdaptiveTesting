@@ -2,10 +2,11 @@ package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
-import at.reisisoft.jku.ce.adaptivelearning.core.engine.Engine;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.ICurrentQuestionChangeListener;
+import at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.IResultFiredListener;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.ResultFiredArgs;
+import at.reisisoft.jku.ce.adaptivelearning.core.engine.engines.SimpleEngine;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.core.VaadinUI;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.core.Views;
@@ -25,13 +26,17 @@ public class QuestionManager extends VerticalLayout implements
 
 	private static final long serialVersionUID = -4764723794449575244L;
 	private SingleComponentLayout questionHolder = new SingleComponentLayout();
-	private final Engine engine = new Engine();
+	private final IEngine iEngine;
 	private GridLayout southLayout = new GridLayout(3, 1);
 	private final Button next;
 	private Component helpComponent = null;
 	private Label title;
 
 	public QuestionManager(String quizName) {
+		this(quizName, null);
+	}
+
+	public QuestionManager(String quizName, IEngine engine) {
 		setMargin(true);
 		title = HtmlLabel.getCenteredLabel("h1", quizName);
 		addComponent(title);
@@ -42,14 +47,20 @@ public class QuestionManager extends VerticalLayout implements
 		next = new Button("Next question ->");
 		next.addClickListener(e -> {
 			e.getButton().setEnabled(false);
-			engine.requestCalculation();
+			iEngine.requestCalculation();
 		});
 		southLayout.addComponent(next, 2, 0);
 		southLayout.setSizeFull();
 		southLayout.setMargin(true);
+		// Ensure we have an engine
+		if (engine == null) {
+			iEngine = new SimpleEngine();
+		} else {
+			iEngine = engine;
+		}
 		// Register to engine events
-		engine.addQuestionChangeListener(this);
-		engine.addResultFiredListener(this);
+		iEngine.addQuestionChangeListener(this);
+		iEngine.addResultFiredListener(this);
 	}
 
 	/**
@@ -59,7 +70,7 @@ public class QuestionManager extends VerticalLayout implements
 	 */
 	public <QuestionComponent extends IQuestion<? extends AnswerStorage> & Component & Sizeable> void addQuestion(
 			QuestionComponent question) {
-		engine.addQuestionToPool(question);
+		iEngine.addQuestionToPool(question);
 	}
 
 	protected final void addHelpButton(Component c) {
@@ -92,7 +103,7 @@ public class QuestionManager extends VerticalLayout implements
 	}
 
 	public void startQuiz() {
-		engine.start();
+		iEngine.start();
 	}
 
 	@Override

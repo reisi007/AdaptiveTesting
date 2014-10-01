@@ -10,7 +10,7 @@ import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
 import at.reisisoft.jku.ce.adaptivelearning.xml.topic.accounting.XmlAccountingQuestion;
 
 public class AccountingQuestion extends AccountingRecordInputGrid implements
-		IQuestion<AccountingDataStorage> {
+IQuestion<AccountingDataStorage> {
 	private static final long serialVersionUID = 5932474069705038565L;
 	private String questionText;
 	private float difficulty = 0;
@@ -86,13 +86,13 @@ public class AccountingQuestion extends AccountingRecordInputGrid implements
 	}
 
 	@Override
-	public boolean checkUserAnswer() {
+	public double checkUserAnswer() {
 		AccountingDataStorage user = getUserAnswer(), solution = getSolution();
 		AccountRecordData[] uSoll = user.getSoll(), uHaben = user.getHaben(), sSoll = solution
 				.getSoll(), sHaben = solution.getHaben();
 		// Return if the answer is right
 		return uSoll.length == sSoll.length && uHaben.length == sHaben.length
-				&& check(sSoll, uSoll) && check(sHaben, uHaben);
+				&& check(sSoll, uSoll) && check(sHaben, uHaben) ? 1d : 0d;
 
 	}
 
@@ -124,6 +124,11 @@ public class AccountingQuestion extends AccountingRecordInputGrid implements
 	public XmlQuestionData<AccountingDataStorage> toXMLRepresentation() {
 		return new XmlAccountingQuestion(getSolution(), getQuestionText(),
 				getDifficulty());
+	}
+
+	@Override
+	public double getMaxPoints() {
+		return 1d;
 	}
 
 }
