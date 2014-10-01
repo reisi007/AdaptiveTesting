@@ -5,6 +5,7 @@ import java.io.File;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
+import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlUtils;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.MainUI;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.QuestionManager;
@@ -19,10 +20,8 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -31,6 +30,42 @@ import com.vaadin.ui.VerticalLayout;
 @PreserveOnRefresh
 @Title("Loading page...")
 public class VaadinUI extends UI {
+	private Navigator navigator;
+
+	public VaadinUI() {
+		// Set up the Navigator
+		navigator = new Navigator(this, this);
+
+		// Create Welcome Screen
+		MainUI mainScreen = new MainUI();
+		mainScreen.setMargin(true);
+		final VerticalLayout welcomeScreen = new VerticalLayout();
+		welcomeScreen.setSizeFull();
+
+		Button start = new Button("Start", e -> {
+			navigator.navigateTo(Views.TEST.toString());
+		});
+		welcomeScreen.addComponent(new HtmlLabel(HtmlUtils.center("h1",
+				"Welcome to " + productData)));
+		welcomeScreen
+		.addComponent(new HtmlLabel(HtmlUtils.center("h2",
+				"Click the <b>" + start.getCaption()
+				+ "</b> Button to start!")));
+		welcomeScreen.addComponent(start);
+		welcomeScreen.setComponentAlignment(start, Alignment.MIDDLE_CENTER);
+		mainScreen.addComponent(welcomeScreen);
+
+		navigator.addView(Views.DEFAULT.toString(), mainScreen);
+		// Question view
+		// Change this to the questionManager you like
+		final QuestionManager manager = new AccountingQuestionManager(
+				"Accounting Quiz");
+		navigator.addView(Views.TEST.toString(), manager);
+
+		navigator.setErrorView(mainScreen);
+
+	}
+
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = VaadinUI.class)
 	public static class Servlet extends VaadinServlet {
@@ -70,45 +105,17 @@ public class VaadinUI extends UI {
 
 	public static void setCurrentPageTitle(ViewChangeEvent e) {
 		Page.getCurrent().setTitle(
-				e.getViewName() + " - "
-						+ VaadinUI.getProductData().getProduct() + " v"
+				(e.getViewName().length() == 0 ? Views.DEFAULT.toString() : e
+						.getViewName())
+						+ " - "
+						+ VaadinUI.getProductData().getProduct()
+						+ " v"
 						+ VaadinUI.getProductData().getVersion());
 
 	}
 
-	private Navigator navigator;
-
 	@Override
 	protected void init(VaadinRequest request) {
-		// Set up the Navigator
-		navigator = new Navigator(this, this);
 
-		// Create Welcome Screen
-		MainUI mainScreen = new MainUI(this);
-		mainScreen.setMargin(true);
-		final VerticalLayout welcomeScreen = new VerticalLayout();
-		welcomeScreen.setSizeFull();
-
-		Button start = new Button("Start", e -> {
-			navigator.navigateTo(Views.TEST.toString());
-		});
-		welcomeScreen.addComponent(new Label(HtmlUtils.center("h1",
-				"Welcome to " + productData), ContentMode.HTML));
-		welcomeScreen.addComponent(new Label(
-				HtmlUtils.center("h2", "Click the <b>" + start.getCaption()
-						+ "</b> Button to start!"), ContentMode.HTML));
-		welcomeScreen.addComponent(start);
-		welcomeScreen.setComponentAlignment(start, Alignment.MIDDLE_CENTER);
-		// Ad the welcome screen as start layout
-		mainScreen.addComponent(welcomeScreen);
-		navigator.addView(Views.DEFAULT.toString(), mainScreen);
-		// Question view
-		// Change this to the questionManager you like
-		final QuestionManager manager = new AccountingQuestionManager(
-				"Accounting Quiz", this);
-		navigator.addView(Views.TEST.toString(), manager);
-
-		// Set the default view
-		navigator.navigateTo(Views.DEFAULT.toString());
 	}
 }

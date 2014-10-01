@@ -1,16 +1,16 @@
 package at.reisisoft.jku.ce.adaptivelearning.topic.accounting;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
+import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
 import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
 import at.reisisoft.jku.ce.adaptivelearning.xml.topic.accounting.XmlProfitQuestion;
 
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 
 public class ProfitQuestion extends GridLayout implements
-IQuestion<ProfitDataStorage> {
+		IQuestion<ProfitDataStorage> {
 
 	private static final long serialVersionUID = 6373936654529246422L;
 	private ProfitDataStorage solution;
@@ -25,7 +25,7 @@ IQuestion<ProfitDataStorage> {
 		answerSelector = new ComboBox("Choose the right answer:");
 		answerSelector.addItems((Object[]) ProfitPossibleAnswers.values());
 		answerSelector.setSizeFull();
-		question = new Label("<br>" + questionText, ContentMode.HTML);
+		question = new HtmlLabel("<br>" + questionText);
 		this.solution = solution;
 		addComponent(question, 0, 0);
 		addComponent(answerSelector, 0, 1);

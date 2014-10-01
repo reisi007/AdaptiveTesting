@@ -1,9 +1,8 @@
 package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 
+import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLink;
 
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -31,8 +30,7 @@ public class LicenceWindow extends Window {
 	}
 
 	public void addAddonLicence(HtmlLink addon, HtmlLink licence) {
-		vLayout.addComponent(new Label(addon + " ( " + licence + ')',
-				ContentMode.HTML));
+		vLayout.addComponent(new HtmlLabel(addon + " ( " + licence + ')'));
 	}
 
 }

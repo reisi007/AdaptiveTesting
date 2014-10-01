@@ -34,14 +34,13 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 
 public class AccountingQuestionManager extends QuestionManager {
 
 	private static final long serialVersionUID = -4764723794449575244L;
 
-	public AccountingQuestionManager(String quizName, UI ui) {
+	public AccountingQuestionManager(String quizName) {
 		super(quizName);
 		Button openKontenplan = new Button("Open Kontenplan");
 		openKontenplan.addClickListener(e -> {
@@ -58,7 +57,7 @@ public class AccountingQuestionManager extends QuestionManager {
 				window.setHeight("80%");
 				window.setResizable(false);
 				window.addCloseListener(e1 -> openKontenplan.setEnabled(true));
-				ui.addWindow(window);
+				getUI().addWindow(window);
 
 			});
 		addHelpButton(openKontenplan);

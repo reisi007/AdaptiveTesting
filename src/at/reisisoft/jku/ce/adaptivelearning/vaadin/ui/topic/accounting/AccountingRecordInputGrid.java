@@ -1,5 +1,6 @@
 package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.topic.accounting;
 
+import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.SingleComponentLayout;
 
 import com.vaadin.shared.ui.label.ContentMode;
@@ -30,8 +31,8 @@ public abstract class AccountingRecordInputGrid extends SingleComponentLayout {
 		inner.setSizeFull();
 		right.setSizeFull();
 		left.setSizeFull();
-		left.addComponent(new Label("<b>Soll</b>", ContentMode.HTML), 0, 0);
-		right.addComponent(new Label("<b>Haben</b>", ContentMode.HTML), 0, 0);
+		left.addComponent(new HtmlLabel("<b>Soll</b>"), 0, 0);
+		right.addComponent(new HtmlLabel("<b>Haben</b>"), 0, 0);
 	}
 
 	public void addComponent(Component component, Side side, int position) {
