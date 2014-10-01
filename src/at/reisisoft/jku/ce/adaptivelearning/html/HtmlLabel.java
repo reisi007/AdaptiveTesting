@@ -4,6 +4,9 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
 
 public class HtmlLabel extends Label {
+	public HtmlLabel() {
+		this("");
+	}
 
 	public HtmlLabel(String content) {
 		super(content, ContentMode.HTML);

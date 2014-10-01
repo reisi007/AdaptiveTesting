@@ -11995,3 +11995,7 @@ div.v-layout.v-horizontal.v-widget {
 	width: 19px;
 	overflow: hidden;
 }
+
+.vaadin .v-label {
+	font-weight: normal;
+}

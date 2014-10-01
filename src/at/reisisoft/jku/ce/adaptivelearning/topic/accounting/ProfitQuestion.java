@@ -25,10 +25,12 @@ public class ProfitQuestion extends GridLayout implements
 		answerSelector = new ComboBox("Choose the right answer:");
 		answerSelector.addItems((Object[]) ProfitPossibleAnswers.values());
 		answerSelector.setSizeFull();
-		question = new HtmlLabel("<br>" + questionText);
+		question = new HtmlLabel();
+		setQuestionText(questionText);
 		this.solution = solution;
 		addComponent(question, 0, 0);
 		addComponent(answerSelector, 0, 1);
+		setSpacing(true);
 	}
 
 	public String getQuestionText() {
@@ -36,7 +38,7 @@ public class ProfitQuestion extends GridLayout implements
 	}
 
 	public void setQuestionText(String questionText) {
-		question.setValue(questionText);
+		question.setValue("<br />" + questionText + "<br />");
 	}
 
 	public void setDifficulty(float difficulty) {

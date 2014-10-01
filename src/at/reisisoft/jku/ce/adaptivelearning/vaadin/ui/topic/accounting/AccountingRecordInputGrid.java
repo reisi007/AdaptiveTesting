@@ -3,7 +3,6 @@ package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.topic.accounting;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.SingleComponentLayout;
 
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
@@ -20,11 +19,14 @@ public abstract class AccountingRecordInputGrid extends SingleComponentLayout {
 	private GridLayout inner = new GridLayout(2, 1);
 	private GridLayout right = new GridLayout(1, 4);
 	private GridLayout left = new GridLayout(1, 4);
+	private Label questionText = new HtmlLabel();
 
 	public AccountingRecordInputGrid() {
 		// Make the layout
 		addComponent(outer);
+		outer.addComponent(questionText);
 		outer.addComponent(inner);
+		outer.setSpacing(true);
 		inner.addComponent(left, 0, 0);
 		inner.addComponent(right, 1, 0);
 		// Make layout size full
@@ -41,8 +43,12 @@ public abstract class AccountingRecordInputGrid extends SingleComponentLayout {
 		current.addComponent(component, 0, position + 1);
 	}
 
-	protected void addQuestionText(String text) {
-		outer.addComponent(new Label(text, ContentMode.HTML), 0);
+	protected void setQuestionText(String text) {
+		questionText.setValue("<br />" + text + "<br />");
+	}
+
+	protected String getQuestionText() {
+		return questionText.getValue();
 	}
 
 }

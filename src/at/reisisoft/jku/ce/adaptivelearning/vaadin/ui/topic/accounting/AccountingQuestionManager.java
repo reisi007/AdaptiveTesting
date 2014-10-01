@@ -46,33 +46,25 @@ public class AccountingQuestionManager extends QuestionManager {
 		openKontenplan.addClickListener(e -> {
 			openKontenplan.setEnabled(false);
 			// Create Window with layout
-				Window window = new Window("Kontenplan");
-				GridLayout layout = new GridLayout(1, 1);
-				layout.addComponent(AccountingDataProvider.getInstance()
-						.toHtmlTable());
-				layout.setSizeFull();
-				window.setContent(layout);
-				window.center();
-				window.setWidth("60%");
-				window.setHeight("80%");
-				window.setResizable(false);
-				window.addCloseListener(e1 -> openKontenplan.setEnabled(true));
-				getUI().addWindow(window);
+			Window window = new Window("Kontenplan");
+			GridLayout layout = new GridLayout(1, 1);
+			layout.addComponent(AccountingDataProvider.getInstance()
+					.toHtmlTable());
+			layout.setSizeFull();
+			window.setContent(layout);
+			window.center();
+			window.setWidth("60%");
+			window.setHeight("80%");
+			window.setResizable(false);
+			window.addCloseListener(e1 -> openKontenplan.setEnabled(true));
+			getUI().addWindow(window);
 
-			});
+		});
 		addHelpButton(openKontenplan);
-		try {
-			loadQuestions(new File(VaadinUI.Servlet.getQuestionFolderName()));
-		} catch (JAXBException | IOException e1) {
-			Notification.show("Questions could not be loaded - FATAL error",
-					e1.getMessage() + Arrays.toString(e1.getStackTrace()),
-					Type.ERROR_MESSAGE);
-		}
-
 	}
 
 	public int loadQuestions(File containingFolder) throws JAXBException,
-	IOException {
+			IOException {
 		assert containingFolder.exists() && containingFolder.isDirectory();
 		JAXBContext accountingJAXB = JAXBContext.newInstance(
 				XmlAccountingQuestion.class, AccountingDataStorage.class);
@@ -135,5 +127,17 @@ public class AccountingQuestionManager extends QuestionManager {
 		accountingList.forEach(q -> addQuestion(q));
 		profitList.forEach(q -> addQuestion(q));
 		return questions.length;
+	}
+
+	@Override
+	public void loadQuestions() {
+		try {
+			loadQuestions(new File(VaadinUI.Servlet.getQuestionFolderName()));
+		} catch (JAXBException | IOException e1) {
+			Notification.show("Questions could not be loaded - FATAL error",
+					e1.getMessage() + Arrays.toString(e1.getStackTrace()),
+					Type.ERROR_MESSAGE);
+		}
+
 	}
 }

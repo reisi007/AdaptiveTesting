@@ -21,7 +21,7 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-public class QuestionManager extends VerticalLayout implements
+public abstract class QuestionManager extends VerticalLayout implements
 		ICurrentQuestionChangeListener, IResultFiredListener, View {
 
 	private static final long serialVersionUID = -4764723794449575244L;
@@ -95,14 +95,19 @@ public class QuestionManager extends VerticalLayout implements
 	public void questionChanged(IQuestion<? extends AnswerStorage> question) {
 		// This cast won't fail as every question in the engine is a Component
 		// as well
-		Component c = (Component) question;
-		questionHolder.addComponent(c);
-		Sizeable s = (Sizeable) question;
-		s.setSizeFull();
+		if (question != null) {
+			Component c = (Component) question;
+			questionHolder.addComponent(c);
+			Sizeable s = (Sizeable) question;
+			s.setSizeFull();
+		}
 		next.setEnabled(true);
 	}
 
+	public abstract void loadQuestions();
+
 	public void startQuiz() {
+		loadQuestions();
 		iEngine.start();
 	}
 
