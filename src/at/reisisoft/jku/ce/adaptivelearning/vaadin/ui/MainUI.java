@@ -3,8 +3,8 @@ package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import at.reisisoft.jku.ce.adaptivelearning.VaadinUI;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
+import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.core.VaadinUI;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;

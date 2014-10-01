@@ -1,4 +1,4 @@
-package at.reisisoft.jku.ce.adaptivelearning;
+package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.core;
 
 public enum Views {
 	DEFAULT("Start"), TEST("Test"), RESULT("Result");

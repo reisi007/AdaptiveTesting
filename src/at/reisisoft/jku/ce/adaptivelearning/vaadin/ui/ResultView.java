@@ -2,10 +2,10 @@ package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 
 import java.util.List;
 
-import at.reisisoft.jku.ce.adaptivelearning.VaadinUI;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.HistoryEntry;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.ResultFiredArgs;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
+import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.core.VaadinUI;
 
 import com.google.gwt.thirdparty.guava.common.collect.Lists;
 import com.vaadin.navigator.View;

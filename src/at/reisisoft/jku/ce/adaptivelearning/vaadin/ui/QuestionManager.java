@@ -1,7 +1,5 @@
 package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 
-import at.reisisoft.jku.ce.adaptivelearning.VaadinUI;
-import at.reisisoft.jku.ce.adaptivelearning.Views;
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.Engine;
@@ -9,6 +7,8 @@ import at.reisisoft.jku.ce.adaptivelearning.core.engine.ICurrentQuestionChangeLi
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.IResultFiredListener;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.ResultFiredArgs;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
+import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.core.VaadinUI;
+import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.core.Views;
 
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;

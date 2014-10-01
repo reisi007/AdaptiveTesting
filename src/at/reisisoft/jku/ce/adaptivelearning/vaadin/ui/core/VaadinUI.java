@@ -1,10 +1,11 @@
-package at.reisisoft.jku.ce.adaptivelearning;
+package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.core;
 
 import java.io.File;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
+import at.reisisoft.jku.ce.adaptivelearning.ProductData;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlUtils;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.MainUI;
@@ -48,9 +49,9 @@ public class VaadinUI extends UI {
 		welcomeScreen.addComponent(new HtmlLabel(HtmlUtils.center("h1",
 				"Welcome to " + productData)));
 		welcomeScreen
-		.addComponent(new HtmlLabel(HtmlUtils.center("h2",
-				"Click the <b>" + start.getCaption()
-				+ "</b> Button to start!")));
+				.addComponent(new HtmlLabel(HtmlUtils.center("h2",
+						"Click the <b>" + start.getCaption()
+								+ "</b> Button to start!")));
 		welcomeScreen.addComponent(start);
 		welcomeScreen.setComponentAlignment(start, Alignment.MIDDLE_CENTER);
 		mainScreen.addComponent(welcomeScreen);
