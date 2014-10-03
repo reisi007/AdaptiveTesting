@@ -2,8 +2,8 @@ package at.reisisoft.jku.ce.adaptivelearning;
 
 public class ProductData {
 	private final int mjVers = 0;
-	private final int minVers = 1;
-	private final int micVers = 0;
+	private final int minVers = 2;
+	private final int micVers = 5;
 	private final String company = "Reisisoft";
 	private final String product = "Adaptive Testing";
 

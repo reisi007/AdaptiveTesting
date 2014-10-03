@@ -5,14 +5,17 @@ import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.AccountingDataStora
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.AccountingQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.MockQuestion;
 
-import com.vaadin.ui.UI;
-
 public class AccountingMockQuestion extends
 		MockQuestion<AccountingQuestion, AccountingDataStorage> {
 
-	public AccountingMockQuestion(int soll, int haben, UI ui) {
-		super(new AccountingQuestion(getData(soll, haben), 0,
-				"No question text yet"), ui);
+	public AccountingMockQuestion(AccountingDataStorage solution,
+			AccountingDataStorage dataStorage, Float difficulty,
+			String questionText) {
+		super(new AccountingQuestion(solution, dataStorage, difficulty, ""));
+	}
+
+	public AccountingMockQuestion(int soll, int haben) {
+		super(new AccountingQuestion(getData(soll, haben), 0f, ""));
 	}
 
 	private static AccountingDataStorage getData(int soll, int haben) {

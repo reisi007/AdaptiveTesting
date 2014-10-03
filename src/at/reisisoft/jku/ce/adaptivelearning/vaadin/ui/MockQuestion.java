@@ -12,7 +12,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -23,7 +22,7 @@ public abstract class MockQuestion<Question extends IQuestion<T> & Component, T 
 	private final Question question;
 	private String questionText;
 
-	public MockQuestion(Question question, UI ui) {
+	public MockQuestion(Question question) {
 		this.question = question;
 
 		TextArea textArea = new TextArea("Question text");
@@ -47,12 +46,12 @@ public abstract class MockQuestion<Question extends IQuestion<T> & Component, T 
 			} catch (Exception e1) {
 				label = new Label(
 						"<h1>Error parsing XML</h1><p>" + e1.getMessage()
-						+ Arrays.toString(e1.getStackTrace()),
+								+ Arrays.toString(e1.getStackTrace()),
 						ContentMode.HTML);
 			}
 			layout.addComponent(label);
 			window.center();
-			ui.addWindow(window);
+			getUI().addWindow(window);
 		});
 		// Add components to the UI
 		addComponent(textArea);
@@ -91,5 +90,10 @@ public abstract class MockQuestion<Question extends IQuestion<T> & Component, T 
 	@Override
 	public double getMaxPoints() {
 		return question.getMaxPoints();
+	}
+
+	@Override
+	public String getQuestionText() {
+		return questionText;
 	}
 }

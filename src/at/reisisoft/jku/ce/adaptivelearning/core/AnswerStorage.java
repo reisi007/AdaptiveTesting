@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Empty abstract class. Should identify a DataStorageObject. Makes the object
- * Serializable
+ * Serializable. So a contructor with no argument is needed!
  *
  * @author Florian
  *

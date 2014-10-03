@@ -13,8 +13,12 @@ public class ProfitDataStorage extends AnswerStorage {
 	@XmlElement(name = "answer")
 	private ProfitPossibleAnswers value;
 
+	public static ProfitDataStorage getEmptyDataStorage() {
+		return new ProfitDataStorage();
+	}
+
 	public ProfitDataStorage() {
-		value = null;
+		this(null);
 	}
 
 	public ProfitDataStorage(ProfitPossibleAnswers value) {

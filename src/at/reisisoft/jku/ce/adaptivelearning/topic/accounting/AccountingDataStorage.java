@@ -16,6 +16,21 @@ public class AccountingDataStorage extends AnswerStorage {
 	@XmlElement(name = "credit")
 	private AccountRecordData[] haben = new AccountRecordData[0];
 
+	public static AccountingDataStorage getEmptyDataStorage() {
+		AccountingDataStorage ds = new AccountingDataStorage();
+		AccountRecordData[] accountRecordDatas = new AccountRecordData[3];
+		for (int i = 0; i < accountRecordDatas.length; i++) {
+			accountRecordDatas[i] = new AccountRecordData();
+		}
+		ds.setSoll(accountRecordDatas);
+		accountRecordDatas = new AccountRecordData[3];
+		for (int i = 0; i < accountRecordDatas.length; i++) {
+			accountRecordDatas[i] = new AccountRecordData();
+		}
+		ds.setHaben(accountRecordDatas);
+		return ds;
+	}
+
 	public AccountingDataStorage() {
 	}
 

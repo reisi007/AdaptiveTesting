@@ -15,7 +15,7 @@ public class AccountingRecordInputFields extends GridLayout {
 	private final ComboBox ddAccountNames;
 	private final CurrencyTextBox currencyTextBox;
 
-	public AccountingRecordInputFields() {
+	public AccountingRecordInputFields(AccountRecordData data) {
 		super(3, 1);
 		setSpacing(true);
 		// Add AccountNumber
@@ -34,6 +34,17 @@ public class AccountingRecordInputFields extends GridLayout {
 		currencyTextBox.setCaption("Figure (€):");
 		currencyTextBox.setWidth("8em");
 		addComponent(currencyTextBox, 2, 0);
+		// set default values from AccountRecordData
+		if (data.accountName != null) {
+			ddAccountNames.setValue(data.accountName);
+		}
+		if (data.accountNumber > 0) {
+			accountNumberInputField.setValue(Integer
+					.toString(data.accountNumber));
+		}
+		if (data.value >= 0.01f) {
+			currencyTextBox.setValue(Float.toString(data.value));
+		}
 	}
 
 	public AccountRecordData getAccountRecordData() {

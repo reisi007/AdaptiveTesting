@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
+import at.reisisoft.jku.ce.adaptivelearning.core.engine.EngineException;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.HistoryEntry;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.ICurrentQuestionChangeListener;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine;
@@ -32,6 +33,7 @@ public class SimpleEngine implements IEngine {
 	private final List<IQuestion<? extends AnswerStorage>>[] bags;
 	private int questionNumber;
 	private IQuestion<? extends AnswerStorage> question;
+	private String r_itemdiff;
 
 	private double[][] getRmatrix() {
 		return history.stream()
@@ -152,7 +154,11 @@ public class SimpleEngine implements IEngine {
 
 	private void fireResultListener(ResultFiredArgs args) {
 		for (IResultFiredListener listener : resultFiredListeners) {
-			listener.resultFired(args);
+			try {
+				listener.resultFired(args);
+			} catch (EngineException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 
@@ -200,9 +206,42 @@ public class SimpleEngine implements IEngine {
 	 */
 	@Override
 	public void start() {
+		getRItemDiff();
+		history.clear();
 		question = getQuestion((upperBounds.length + 1) / 2 - 1);
 		fireQuestionChangeListener(question);
 
+	}
+
+	private void getRItemDiff() {
+		if (questionNumber <= 0) {
+			return;
+		}
+		StringBuilder sb = new StringBuilder("item_diff <- c(");
+		int bag = 0, item = 0;
+		;
+		// Get first item
+		while (bags[bag].size() == 0) {
+			bag++;
+		}
+		sb.append(bags[bag].get(0).getDifficulty());
+		if (bags[bag].size() > 1) {
+			item = 1;
+		} else {
+			bag++;
+		}
+		while (bag < bags.length) {
+			while (item < bags[bag].size()) {
+				sb.append(',').append(bags[bag].get(item).getDifficulty());
+				// Go to next item
+				item++;
+			}
+			// Go to next bag
+			bag++;
+			item = 0;
+		}
+		// Set R-variable itemdiff
+		r_itemdiff = sb.append(')').toString();
 	}
 
 	/**

@@ -1,7 +1,13 @@
 package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
+import at.reisisoft.jku.ce.adaptivelearning.core.IResultView;
+import at.reisisoft.jku.ce.adaptivelearning.core.engine.EngineException;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.ICurrentQuestionChangeListener;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.IResultFiredListener;
@@ -19,10 +25,12 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.VerticalLayout;
 
 public abstract class QuestionManager extends VerticalLayout implements
-		ICurrentQuestionChangeListener, IResultFiredListener, View {
+ICurrentQuestionChangeListener, IResultFiredListener, View {
 
 	private static final long serialVersionUID = -4764723794449575244L;
 	private SingleComponentLayout questionHolder = new SingleComponentLayout();
@@ -31,6 +39,7 @@ public abstract class QuestionManager extends VerticalLayout implements
 	private final Button next;
 	private Component helpComponent = null;
 	private Label title;
+	private Class<? extends IResultView> resultViewClass = null;
 
 	public QuestionManager(String quizName) {
 		this(quizName, null);
@@ -47,7 +56,13 @@ public abstract class QuestionManager extends VerticalLayout implements
 		next = new Button("Next question ->");
 		next.addClickListener(e -> {
 			e.getButton().setEnabled(false);
-			iEngine.requestCalculation();
+			try {
+				iEngine.requestCalculation();
+			} catch (EngineException e1) {
+				Notification.show(
+						"The following exception occoured:" + e1.getClass(),
+						Arrays.toString(e1.getStackTrace()), Type.ERROR_MESSAGE);
+			}
 		});
 		southLayout.addComponent(next, 2, 0);
 		southLayout.setSizeFull();
@@ -80,11 +95,29 @@ public abstract class QuestionManager extends VerticalLayout implements
 	}
 
 	@Override
-	public void resultFired(ResultFiredArgs args) {
-		ResultView result = new ResultView(args, title);
+	public void resultFired(ResultFiredArgs args) throws EngineException {
+		IResultView result;
+		if (resultViewClass == null) {
+			throw new NullPointerException("You forget to set the result view");
+		}
+		Constructor<? extends IResultView> resultConstructor;
+		try {
+			resultConstructor = resultViewClass.getConstructor(
+					ResultFiredArgs.class, String.class);
+			result = resultConstructor.newInstance(args, title.getValue());
+		} catch (NoSuchMethodException | SecurityException
+				| InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException
+				| NullPointerException e) {
+			throw new EngineException(e);
+		}
+
+		// Add it to the navigator
 		Navigator navigator = getUI().getNavigator();
 		assert navigator != null;
-		navigator.addView(Views.RESULT.toString(), result);
+		// Cast cannot fail, as the setResultView takes care, that it is a View
+		// as well
+		navigator.addView(Views.RESULT.toString(), (View) result);
 		navigator.navigateTo(Views.RESULT.toString());
 
 	}
@@ -115,5 +148,10 @@ public abstract class QuestionManager extends VerticalLayout implements
 	public void enter(ViewChangeEvent event) {
 		startQuiz();
 		VaadinUI.setCurrentPageTitle(event);
+	}
+
+	public <RView extends View & IResultView> void setResultView(
+			Class<? extends RView> class1) {
+		resultViewClass = class1;
 	}
 }

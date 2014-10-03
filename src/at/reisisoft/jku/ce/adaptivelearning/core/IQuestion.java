@@ -9,6 +9,18 @@ import javax.xml.bind.Marshaller;
 
 import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
 
+/**
+ *
+ * @author Florian
+ *
+ *         Every type implementing this needs a Constructor taking its
+ *         {@link DataStorage} type twice (solution and pre-filled question),
+ *         {@link Float} ( Question difficulty) and a {@link String} (Actual
+ *         question text)
+ *
+ * @param <DataStorage>
+ *            A object, which can store the question's answer
+ */
 public interface IQuestion<DataStorage extends AnswerStorage> {
 	/**
 	 *
@@ -47,6 +59,12 @@ public interface IQuestion<DataStorage extends AnswerStorage> {
 	 * @return A representation of the question, which can be parsed to XML
 	 */
 	public XmlQuestionData<DataStorage> toXMLRepresentation();
+
+	/**
+	 *
+	 * @return Gets the text of the question
+	 */
+	public String getQuestionText();
 
 	/**
 	 *

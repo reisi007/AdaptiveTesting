@@ -13,7 +13,7 @@ public interface IEngine {
 	public void addQuestionToPool(IQuestion<? extends AnswerStorage> question);
 
 	/**
-	 * 
+	 *
 	 * @param questionChangeListener
 	 *            A listener, which listens to change of the question
 	 */
@@ -21,7 +21,7 @@ public interface IEngine {
 			ICurrentQuestionChangeListener questionChangeListener);
 
 	/**
-	 * 
+	 *
 	 * @param resultFiredListener
 	 *            A listener, which listens to the result of a test run
 	 */
@@ -46,8 +46,10 @@ public interface IEngine {
 	/**
 	 * Signals that the user has finished his input and that the question gets
 	 * evaluated
+	 *
+	 * @throws EngineException
 	 */
-	public void requestCalculation();
+	public void requestCalculation() throws EngineException;
 
 	/**
 	 * Starts the test

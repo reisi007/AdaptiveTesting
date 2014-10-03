@@ -18,13 +18,20 @@ public class ProfitQuestion extends GridLayout implements
 	private ComboBox answerSelector;
 	private Label question;
 
-	public ProfitQuestion(ProfitDataStorage solution, float difficulty,
+	public ProfitQuestion(ProfitDataStorage solution, Float difficulty,
 			String questionText) {
+		this(solution, ProfitDataStorage.getEmptyDataStorage(), difficulty,
+				questionText);
+	}
+
+	public ProfitQuestion(ProfitDataStorage solution,
+			ProfitDataStorage prefilled, Float difficulty, String questionText) {
 		super(1, 2);
 		this.difficulty = difficulty;
 		answerSelector = new ComboBox("Choose the right answer:");
 		answerSelector.addItems((Object[]) ProfitPossibleAnswers.values());
 		answerSelector.setSizeFull();
+		answerSelector.setValue(prefilled.getValue());
 		question = new HtmlLabel();
 		setQuestionText(questionText);
 		this.solution = solution;
@@ -33,8 +40,9 @@ public class ProfitQuestion extends GridLayout implements
 		setSpacing(true);
 	}
 
+	@Override
 	public String getQuestionText() {
-		return question.getCaption();
+		return question.getValue();
 	}
 
 	public void setQuestionText(String questionText) {

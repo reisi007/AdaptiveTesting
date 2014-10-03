@@ -17,26 +17,17 @@ public class AccountingQuestion extends AccountingRecordInputGrid implements
 	private AccountingRecordInputFields[] soll, haben;
 
 	public AccountingQuestion() {
-		this(getEmptyDataStorage(), 0, "");
+		this(AccountingDataStorage.getEmptyDataStorage(), 0f, "");
 	}
 
-	private static AccountingDataStorage getEmptyDataStorage() {
-		AccountingDataStorage ds = new AccountingDataStorage();
-		AccountRecordData[] accountRecordDatas = new AccountRecordData[3];
-		for (int i = 0; i < accountRecordDatas.length; i++) {
-			accountRecordDatas[i] = new AccountRecordData();
-		}
-		ds.setSoll(accountRecordDatas);
-		accountRecordDatas = new AccountRecordData[3];
-		for (int i = 0; i < accountRecordDatas.length; i++) {
-			accountRecordDatas[i] = new AccountRecordData();
-		}
-		ds.setHaben(accountRecordDatas);
-		return ds;
-	}
-
-	public AccountingQuestion(AccountingDataStorage solution, float difficulty,
+	public AccountingQuestion(AccountingDataStorage solution, Float difficulty,
 			String question) {
+		this(solution, AccountingDataStorage.getEmptyDataStorage(), difficulty,
+				question);
+	}
+
+	public AccountingQuestion(AccountingDataStorage solution,
+			AccountingDataStorage prefilled, Float difficulty, String question) {
 		this.difficulty = difficulty;
 		this.solution = solution;
 		setQuestionText(question);
@@ -45,11 +36,13 @@ public class AccountingQuestion extends AccountingRecordInputGrid implements
 		soll = new AccountingRecordInputFields[iSoll];
 		haben = new AccountingRecordInputFields[iHaben];
 		for (int row = 0; row < iSoll; row++) {
-			soll[row] = new AccountingRecordInputFields();
+			soll[row] = new AccountingRecordInputFields(
+					prefilled.getSoll()[row]);
 			addComponent(soll[row], Side.Left, row);
 		}
 		for (int row = 0; row < iHaben; row++) {
-			haben[row] = new AccountingRecordInputFields();
+			haben[row] = new AccountingRecordInputFields(
+					prefilled.getHaben()[row]);
 			addComponent(haben[row], Side.Right, row);
 		}
 
@@ -58,12 +51,6 @@ public class AccountingQuestion extends AccountingRecordInputGrid implements
 	@Override
 	public AccountingDataStorage getSolution() {
 		return solution;
-	}
-
-	public void setSolution(AccountingDataStorage solution) {
-		if (solution != null) {
-			this.solution = solution;
-		}
 	}
 
 	@Override
@@ -120,6 +107,11 @@ public class AccountingQuestion extends AccountingRecordInputGrid implements
 	@Override
 	public double getMaxPoints() {
 		return 1d;
+	}
+
+	@Override
+	public String getQuestionText() {
+		return super.getQuestionText();
 	}
 
 }
