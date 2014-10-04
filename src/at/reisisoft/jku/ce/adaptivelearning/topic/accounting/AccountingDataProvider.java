@@ -290,4 +290,17 @@ public class AccountingDataProvider {
 		return data.stream().map(array -> array[1])
 				.collect(Collectors.toList()).toArray(new String[data.size()]);
 	}
+
+	public boolean containsString(String string) {
+		return string == null
+				|| string.length() == 0
+				|| data.stream().map(e -> e[1]).filter(e -> e.equals(string))
+						.count() > 0;
+	}
+
+	public boolean containsNumber(int number) {
+		String intString = Integer.toString(number);
+		return data.stream().map(e -> e[0].substring(0, 2))
+				.filter(s -> intString.equals(s)).count() > 0;
+	}
 }

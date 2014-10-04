@@ -23,6 +23,8 @@ public abstract class AccountingRecordInputGrid extends SingleComponentLayout {
 
 	public AccountingRecordInputGrid() {
 		// Make the layout
+		setSizeFull();
+		outer.setSizeFull();
 		addComponent(outer);
 		outer.addComponent(questionText);
 		outer.addComponent(inner);

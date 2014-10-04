@@ -15,7 +15,7 @@ import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
  *
  *         Every type implementing this needs a Constructor taking its
  *         {@link DataStorage} type twice (solution and pre-filled question),
- *         {@link Float} ( Question difficulty) and a {@link String} (Actual
+ *         {@link float} (Question difficulty) and a {@link String} (Actual
  *         question text)
  *
  * @param <DataStorage>

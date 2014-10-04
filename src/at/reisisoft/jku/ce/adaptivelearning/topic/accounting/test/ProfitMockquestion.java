@@ -8,7 +8,7 @@ public class ProfitMockQuestion extends
 		MockQuestion<ProfitQuestion, ProfitDataStorage> {
 
 	public ProfitMockQuestion(ProfitDataStorage solution,
-			ProfitDataStorage dataStorage, Float difficulty, String s) {
+			ProfitDataStorage dataStorage, float difficulty, String s) {
 		super(new ProfitQuestion(solution, dataStorage, difficulty, s));
 	}
 

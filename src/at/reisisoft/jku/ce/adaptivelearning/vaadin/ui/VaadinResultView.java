@@ -24,7 +24,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class VaadinResultView extends VerticalLayout implements View,
-IResultView {
+		IResultView {
 
 	private static final long serialVersionUID = -6619938011293967055L;
 
@@ -58,7 +58,7 @@ IResultView {
 					Constructor<? extends IQuestion> constructor = entry.question
 							.getClass()
 							.getConstructor(dataStorageClass, dataStorageClass,
-									Float.class, String.class);
+									float.class, String.class);
 					// The following casts can not fail, because the question is
 					// a component as well
 					Component iQuestionSolution = (Component) constructor

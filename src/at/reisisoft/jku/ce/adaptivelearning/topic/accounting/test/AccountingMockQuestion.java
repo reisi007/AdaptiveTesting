@@ -9,7 +9,7 @@ public class AccountingMockQuestion extends
 		MockQuestion<AccountingQuestion, AccountingDataStorage> {
 
 	public AccountingMockQuestion(AccountingDataStorage solution,
-			AccountingDataStorage dataStorage, Float difficulty,
+			AccountingDataStorage dataStorage, float difficulty,
 			String questionText) {
 		super(new AccountingQuestion(solution, dataStorage, difficulty, ""));
 	}

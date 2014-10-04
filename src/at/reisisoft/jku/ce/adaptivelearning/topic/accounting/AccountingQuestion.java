@@ -20,14 +20,14 @@ public class AccountingQuestion extends AccountingRecordInputGrid implements
 		this(AccountingDataStorage.getEmptyDataStorage(), 0f, "");
 	}
 
-	public AccountingQuestion(AccountingDataStorage solution, Float difficulty,
+	public AccountingQuestion(AccountingDataStorage solution, float difficulty,
 			String question) {
 		this(solution, AccountingDataStorage.getEmptyDataStorage(), difficulty,
 				question);
 	}
 
 	public AccountingQuestion(AccountingDataStorage solution,
-			AccountingDataStorage prefilled, Float difficulty, String question) {
+			AccountingDataStorage prefilled, float difficulty, String question) {
 		this.difficulty = difficulty;
 		this.solution = solution;
 		setQuestionText(question);

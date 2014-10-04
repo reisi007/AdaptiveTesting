@@ -7,6 +7,8 @@ import at.reisisoft.jku.ce.adaptivelearning.vaadin.input.CurrencyTextBox;
 
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 
 public class AccountingRecordInputFields extends GridLayout {
 
@@ -17,6 +19,8 @@ public class AccountingRecordInputFields extends GridLayout {
 
 	public AccountingRecordInputFields(AccountRecordData data) {
 		super(3, 1);
+		AccountingDataProvider dataProvider = AccountingDataProvider
+				.getInstance();
 		setSpacing(true);
 		// Add AccountNumber
 		accountNumberInputField = new AccountNumberInputField();
@@ -36,14 +40,28 @@ public class AccountingRecordInputFields extends GridLayout {
 		addComponent(currencyTextBox, 2, 0);
 		// set default values from AccountRecordData
 		if (data.accountName != null) {
+			if (!dataProvider.containsString(data.accountName)) {
+				Notification.show('"' + data.accountName
+						+ "\" is not a known account name",
+						Type.WARNING_MESSAGE);
+			}
 			ddAccountNames.setValue(data.accountName);
+			ddAccountNames.setEnabled(data.accountName == null
+					|| data.accountName.length() == 0);
 		}
 		if (data.accountNumber > 0) {
+			if (!dataProvider.containsNumber(data.accountNumber)) {
+				Notification.show('"' + data.accountNumber
+						+ "\" is not a known account number",
+						Type.WARNING_MESSAGE);
+			}
 			accountNumberInputField.setValue(Integer
 					.toString(data.accountNumber));
+			accountNumberInputField.setEnabled(false);
 		}
 		if (data.value >= 0.01f) {
 			currencyTextBox.setValue(Float.toString(data.value));
+			currencyTextBox.setEnabled(false);
 		}
 	}
 

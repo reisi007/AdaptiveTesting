@@ -393,5 +393,6 @@ public class SimpleEngine implements IEngine {
 		for (List<?> bag : bags) {
 			bag.clear();
 		}
+		questionNumber = 0;
 	}
 }

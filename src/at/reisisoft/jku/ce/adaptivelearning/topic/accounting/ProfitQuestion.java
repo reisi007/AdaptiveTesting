@@ -6,10 +6,10 @@ import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
 import at.reisisoft.jku.ce.adaptivelearning.xml.topic.accounting.XmlProfitQuestion;
 
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 
-public class ProfitQuestion extends GridLayout implements
+public class ProfitQuestion extends VerticalLayout implements
 		IQuestion<ProfitDataStorage> {
 
 	private static final long serialVersionUID = 6373936654529246422L;
@@ -25,18 +25,19 @@ public class ProfitQuestion extends GridLayout implements
 	}
 
 	public ProfitQuestion(ProfitDataStorage solution,
-			ProfitDataStorage prefilled, Float difficulty, String questionText) {
-		super(1, 2);
+			ProfitDataStorage prefilled, float difficulty, String questionText) {
+		// super(1, 2);
 		this.difficulty = difficulty;
 		answerSelector = new ComboBox("Choose the right answer:");
 		answerSelector.addItems((Object[]) ProfitPossibleAnswers.values());
 		answerSelector.setSizeFull();
 		answerSelector.setValue(prefilled.getValue());
+		answerSelector.setEnabled(prefilled.getValue() == null);
 		question = new HtmlLabel();
 		setQuestionText(questionText);
 		this.solution = solution;
-		addComponent(question, 0, 0);
-		addComponent(answerSelector, 0, 1);
+		addComponent(question);
+		addComponent(answerSelector);
 		setSpacing(true);
 	}
 
