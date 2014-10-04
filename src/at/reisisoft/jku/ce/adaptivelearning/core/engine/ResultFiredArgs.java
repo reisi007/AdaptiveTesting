@@ -7,13 +7,15 @@ public class ResultFiredArgs {
 	public final boolean outOfQuestions;
 	public final List<HistoryEntry> history;
 	public final double skillLevel;
+	public final double delta;
 
 	public ResultFiredArgs(boolean outOfQuestions, List<HistoryEntry> history,
-			double skillLevel) {
+			double skillLevel, double delta) {
 		super();
 		this.outOfQuestions = outOfQuestions;
 		this.history = history;
 		this.skillLevel = skillLevel;
+		this.delta = delta;
 	}
 
 }

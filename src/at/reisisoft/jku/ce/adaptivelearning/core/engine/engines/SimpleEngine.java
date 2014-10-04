@@ -1,12 +1,17 @@
 package at.reisisoft.jku.ce.adaptivelearning.core.engine.engines;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
+import javax.script.ScriptException;
+
+import rcaller.RCaller;
+import rcaller.RCode;
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.EngineException;
@@ -15,9 +20,7 @@ import at.reisisoft.jku.ce.adaptivelearning.core.engine.ICurrentQuestionChangeLi
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.IResultFiredListener;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.ResultFiredArgs;
-
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Notification.Type;
+import at.reisisoft.jku.ce.adaptivelearning.r.RProvider;
 
 /**
  * The worker class
@@ -33,19 +36,15 @@ public class SimpleEngine implements IEngine {
 	private final List<IQuestion<? extends AnswerStorage>>[] bags;
 	private int questionNumber;
 	private IQuestion<? extends AnswerStorage> question;
-	private String r_itemdiff;
-
-	private double[][] getRmatrix() {
-		return history.stream()
-				.map(e -> new double[] { e.difficulty, e.points })
-				.collect(Collectors.toList())
-				.toArray(new double[history.size()][]);
-	}
+	private String r_itemdiff, r_libFolder;
+	private RProvider rProvider;
 
 	/**
 	 * Using -1.6f, -0.2f, 1.2f, 2.5f as explicit upper bounds
+	 *
+	 * @throws EngineException
 	 */
-	public SimpleEngine() {
+	public SimpleEngine() throws EngineException {
 		this(-1.6f, -0.2f, 1.2f, 2.5f);
 	}
 
@@ -54,15 +53,21 @@ public class SimpleEngine implements IEngine {
 	 * @param upperBounds
 	 *            : All upper bounds. Additionally a upper bound "+INF" is
 	 *            created. All upper bounds including
+	 * @throws EngineException
 	 */
 
 	@SuppressWarnings("unchecked")
-	public SimpleEngine(float... upperBounds) {
+	public SimpleEngine(float... upperBounds) throws EngineException {
 		Arrays.sort(upperBounds);
 		this.upperBounds = upperBounds;
 		bags = new List[upperBounds.length + 1];
 		for (int i = 0; i < bags.length; i++) {
 			bags[i] = new ArrayList<>();
+		}
+		try {
+			rProvider = new RProvider();
+		} catch (ScriptException e) {
+			throw new EngineException(e);
 		}
 	}
 
@@ -157,7 +162,7 @@ public class SimpleEngine implements IEngine {
 			try {
 				listener.resultFired(args);
 			} catch (EngineException e) {
-				throw new RuntimeException(e);
+				e.printStackTrace();
 			}
 		}
 	}
@@ -183,20 +188,46 @@ public class SimpleEngine implements IEngine {
 	 * ()
 	 */
 	@Override
-	public void requestCalculation() {
-		// Evaluate current question
-		boolean lastCorrect = addQuestionToHistory(question) > 0;
-		// Dummy calculation -> get Random next question
-		IQuestion<? extends AnswerStorage> nextQuestion = getQuestion(lastCorrect ? 1
-				: 0);
-		if (nextQuestion == null) {
-			ResultFiredArgs args = new ResultFiredArgs(true,
-					Collections.unmodifiableList(history), 0);
-			fireResultListener(args);
-		} else {
+	public void requestCalculation() throws EngineException {
+		addQuestionToHistory(question);
+		// Do R
+		try {
+			RCaller caller = rProvider.getRCaller();
+			// Get r code
+			RCode rCode = rProvider.getRCode();
+			// Add script
+			rCode.addRCode(getRScript());
+			// Execute R code and get result
+			String rNameReturn = "next_item_parm";
+			// [0] -> next item's difficulty [1] -> current competence
+			// [2] ->Delta to result
+			double[] result = rProvider.execute(caller, rCode, rNameReturn)
+					.getAsDoubleArray(rNameReturn);
+
+			// Get array position of difficulty
+			IQuestion<? extends AnswerStorage> nextQuestion = getQuestion(getArrayPositionFromWantedDifficulty(result[0]));
+			if (nextQuestion == null || result[2] < 0.5d) {
+				ResultFiredArgs args = new ResultFiredArgs(
+						nextQuestion == null,
+						Collections.unmodifiableList(history), result[1],
+						result[2]);
+				fireResultListener(args);
+				return;
+			}
 			question = nextQuestion;
 			fireQuestionChangeListener(nextQuestion);
+		} catch (ScriptException e) {
+			throw new EngineException(e);
 		}
+	}
+
+	private int getArrayPositionFromWantedDifficulty(double wantedDifficulty) {
+		for (int i = 0; i < upperBounds.length - 1; i++) {
+			if (wantedDifficulty > upperBounds[i]) {
+				return i;
+			}
+		}
+		return upperBounds.length - 1;
 	}
 
 	/*
@@ -205,18 +236,19 @@ public class SimpleEngine implements IEngine {
 	 * @see at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#start()
 	 */
 	@Override
-	public void start() {
-		getRItemDiff();
+	public void start() throws EngineException {
+		initR();
 		history.clear();
 		question = getQuestion((upperBounds.length + 1) / 2 - 1);
 		fireQuestionChangeListener(question);
 
 	}
 
-	private void getRItemDiff() {
+	private void initR() throws EngineException {
 		if (questionNumber <= 0) {
 			return;
 		}
+		// Create the r_itemdiff String
 		StringBuilder sb = new StringBuilder("item_diff <- c(");
 		int bag = 0, item = 0;
 		;
@@ -242,6 +274,24 @@ public class SimpleEngine implements IEngine {
 		}
 		// Set R-variable itemdiff
 		r_itemdiff = sb.append(')').toString();
+		// Get library home
+		File path = new File(System.getProperty("java.io.tmpdir"), "r_lib");
+		if (!path.exists()) {
+			path.mkdirs();
+		}
+		r_libFolder = path.getPath().replace("\\", "\\\\");
+		// Set up needed R libraries
+		String cmd = "options(repos=structure(c(CRAN=\"http://cran.r-project.org/\")))"
+				+ System.getProperty("line.separator")
+				+ "install.packages(\"catR\",lib=\"" + r_libFolder + "\")";
+		try {
+			RProvider rProvider = new RProvider();
+			RCaller rCaller = rProvider.getRCaller();
+			RCode rCode = rProvider.getRCode();
+			rProvider.run(rCaller, rCode);
+		} catch (ScriptException e) {
+			throw new EngineException(e);
+		}
 	}
 
 	/**
@@ -252,6 +302,61 @@ public class SimpleEngine implements IEngine {
 	 */
 	private IQuestion<? extends AnswerStorage> getQuestion(float difficulty) {
 		return getQuestion(Arrays.asList(upperBounds).indexOf(difficulty));
+	}
+
+	/**
+	 * Only valid after {@link start()}
+	 */
+	private String getRScript() {
+		// Newline
+		String nl = System.getProperty("line.separator");
+		// Get R matrix (input)
+		StringBuilder sb = new StringBuilder("double <- matrix(c(");
+		Iterator<String> iterator = history
+				.stream()
+				.map(e -> e.question.getDifficulty() + ","
+						+ (Math.abs(e.points) < 0.01 ? "0" : "1")).iterator();
+		if (iterator.hasNext()) {
+			sb.append(iterator.next());
+		}
+		while (iterator.hasNext()) {
+			sb.append(',').append(iterator.next());
+		}
+		String inputMatrix = sb.append("),nrow=").append(history.size())
+				.append(",ncol=2,byrow=TRUE)").toString();
+		return "library(catR, lib.loc=\""
+				+ r_libFolder
+				+ "\")"
+		+ nl
+		+ r_itemdiff
+		+ nl
+		+ inputMatrix
+		+ nl
+		+ "itembank <- unname(as.matrix(cbind(1, item_diff, 0, 1)))"
+		+ nl
+		+ "response_pattern <- double[,1]"
+		+ nl
+		+ "pre_items_diff <- as.matrix(double[,2],length(response_pattern)) "
+		+ nl
+		+ "previous_items <- as.matrix(rep(0, length(response_pattern), length(response_pattern)))"
+		+ nl
+		+ "for(i in 1:length(response_pattern)) {"
+		+ nl
+		+ "for (j in 1:nrow(itembank)) {"
+		+ nl
+		+ "if(pre_items_diff[i,1]==itembank[j,2]) (previous_items[i,1] <- print(j))"
+		+ nl
+		+ "}"
+		+ nl
+		+ "}"
+		+ nl
+		+ "select_next_item <- nextItem(itembank, x = response_pattern, out = previous_items, criterion = \"MPWI\")"
+		+ nl
+		+ "next_item_parm <- c(itembank[select_next_item$item,2], "
+		+ nl
+		+ "thetaEst(itembank[previous_items,], response_pattern),"
+		+ nl
+		+ "eapSem(thetaEst(itembank[previous_items,], response_pattern), itembank[previous_items,], response_pattern))";
 	}
 
 	/**
@@ -274,9 +379,19 @@ public class SimpleEngine implements IEngine {
 		IQuestion<? extends AnswerStorage> question = list.get(index);
 		list.remove(index);
 		questionNumber--;
-		// Remove the following line when going live
-		Notification.show("Question choosen", "Category " + arrayIndex,
-				Type.TRAY_NOTIFICATION);
 		return question;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#resetQuestions()
+	 */
+	@Override
+	public void resetQuestions() {
+		for (List<?> bag : bags) {
+			bag.clear();
+		}
 	}
 }

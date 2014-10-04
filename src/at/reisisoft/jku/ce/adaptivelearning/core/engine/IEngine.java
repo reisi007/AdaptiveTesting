@@ -53,7 +53,14 @@ public interface IEngine {
 
 	/**
 	 * Starts the test
+	 *
+	 * @throws EngineException
 	 */
-	public void start();
+	public void start() throws EngineException;
+
+	/**
+	 * Deletes all questions stored in the Engine
+	 */
+	public void resetQuestions();
 
 }

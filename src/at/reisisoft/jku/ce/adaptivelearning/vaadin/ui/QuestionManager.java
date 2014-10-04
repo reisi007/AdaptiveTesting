@@ -30,11 +30,11 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.VerticalLayout;
 
 public abstract class QuestionManager extends VerticalLayout implements
-ICurrentQuestionChangeListener, IResultFiredListener, View {
+		ICurrentQuestionChangeListener, IResultFiredListener, View {
 
 	private static final long serialVersionUID = -4764723794449575244L;
 	private SingleComponentLayout questionHolder = new SingleComponentLayout();
-	private final IEngine iEngine;
+	private IEngine iEngine;
 	private GridLayout southLayout = new GridLayout(3, 1);
 	private final Button next;
 	private Component helpComponent = null;
@@ -69,13 +69,20 @@ ICurrentQuestionChangeListener, IResultFiredListener, View {
 		southLayout.setMargin(true);
 		// Ensure we have an engine
 		if (engine == null) {
-			iEngine = new SimpleEngine();
+			try {
+				iEngine = new SimpleEngine();
+			} catch (EngineException e1) {
+				Notification.show("Engine could not be initialized",
+						Type.ERROR_MESSAGE);
+
+			}
 		} else {
 			iEngine = engine;
 		}
 		// Register to engine events
 		iEngine.addQuestionChangeListener(this);
 		iEngine.addResultFiredListener(this);
+		setResultView(VaadinResultView.class);
 	}
 
 	/**
@@ -137,11 +144,20 @@ ICurrentQuestionChangeListener, IResultFiredListener, View {
 		next.setEnabled(true);
 	}
 
+	/**
+	 * Loads questions to the {@code iEngine}
+	 */
 	public abstract void loadQuestions();
 
 	public void startQuiz() {
+		iEngine.resetQuestions();
 		loadQuestions();
-		iEngine.start();
+		try {
+			iEngine.start();
+		} catch (EngineException e) {
+			Notification.show("Engine could not be started",
+					Arrays.toString(e.getStackTrace()), Type.ERROR_MESSAGE);
+		}
 	}
 
 	@Override

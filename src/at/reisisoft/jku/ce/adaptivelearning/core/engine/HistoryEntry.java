@@ -6,12 +6,10 @@ import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
 public class HistoryEntry {
 
 	public final double points;
-	public final double difficulty;
 	public final IQuestion<? extends AnswerStorage> question;
 
 	public HistoryEntry(IQuestion<? extends AnswerStorage> question) {
 		points = question.checkUserAnswer();
-		difficulty = question.getDifficulty();
 		this.question = question;
 	}
 
@@ -20,8 +18,6 @@ public class HistoryEntry {
 		final int prime = 31;
 		int result = 1;
 		long temp;
-		temp = Double.doubleToLongBits(difficulty);
-		result = prime * result + (int) (temp ^ temp >>> 32);
 		temp = Double.doubleToLongBits(points);
 		result = prime * result + (int) (temp ^ temp >>> 32);
 		result = prime * result + (question == null ? 0 : question.hashCode());
@@ -40,10 +36,6 @@ public class HistoryEntry {
 			return false;
 		}
 		HistoryEntry other = (HistoryEntry) obj;
-		if (Double.doubleToLongBits(difficulty) != Double
-				.doubleToLongBits(other.difficulty)) {
-			return false;
-		}
 		if (Double.doubleToLongBits(points) != Double
 				.doubleToLongBits(other.points)) {
 			return false;
@@ -57,4 +49,5 @@ public class HistoryEntry {
 		}
 		return true;
 	}
+
 }

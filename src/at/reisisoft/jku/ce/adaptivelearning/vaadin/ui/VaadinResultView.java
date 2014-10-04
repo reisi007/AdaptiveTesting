@@ -43,7 +43,7 @@ IResultView {
 		// Create HTML table of the history
 		Table table = new Table();
 		final String solution = "Solution", userAnswewr = "Yourt answer";
-		table.addContainerProperty("Question difficulty", Double.class, null);
+		table.addContainerProperty("Question difficulty", Float.class, null);
 		table.addContainerProperty("Result", String.class, null);
 		table.addContainerProperty(userAnswewr, Button.class, null);
 		table.addContainerProperty(solution, Button.class, null);
@@ -113,12 +113,9 @@ IResultView {
 				}
 			}
 
-			table.addItem(
-					new Object[] {
-							entry.difficulty,
-							isCorrect(entry.points,
-									entry.question.getMaxPoints()), qAnswer,
-							qSolution }, null);
+			table.addItem(new Object[] { entry.question.getDifficulty(),
+					isCorrect(entry.points, entry.question.getMaxPoints()),
+					qAnswer, qSolution }, null);
 		}
 		int size = table.size();
 		if (size > 10) {
@@ -130,6 +127,9 @@ IResultView {
 
 		addComponent(HtmlLabel.getCenteredLabel("h3",
 				"Your skill level is: <b>" + args.skillLevel + "</b>"));
+		addComponent(HtmlLabel
+				.getCenteredLabel("Delta (Valus close to 0 are best):  "
+						+ args.delta));
 	}
 
 	private String isCorrect(double points, double maxPoints) {
