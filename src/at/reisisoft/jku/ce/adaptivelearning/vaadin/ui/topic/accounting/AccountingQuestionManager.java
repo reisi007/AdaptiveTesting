@@ -90,12 +90,13 @@ public class AccountingQuestionManager extends QuestionManager {
 
 		// read all questions
 		for (File f : questions) {
+			LogHelper.logInfo("Loading question with filename: " + f.getName());
 			BufferedReader reader = null;
 			StringBuilder sb = new StringBuilder();
 			try {
 				reader = new BufferedReader(new InputStreamReader(
 						new BOMInputStream(new FileInputStream(f),
-								ByteOrderMark.UTF_8)));
+								ByteOrderMark.UTF_8), "UTF8"));
 
 				String line = null;
 				while ((line = reader.readLine()) != null) {
@@ -108,11 +109,15 @@ public class AccountingQuestionManager extends QuestionManager {
 			}
 			String fileAsString = sb.toString();
 			if (fileAsString.contains(profitRootElement)) {
+				LogHelper.logInfo("Question detected as "
+						+ ProfitQuestion.class.getName());
 				// Profit Question
 				XmlProfitQuestion question = (XmlProfitQuestion) profitUnmarshaller
 						.unmarshal(new StringReader(fileAsString));
 				profitList.add(AccountingXmlHelper.fromXml(question));
 			} else if (fileAsString.contains(accountingRootElement)) {
+				LogHelper.logInfo("Question detected as "
+						+ AccountingQuestion.class.getName());
 				// Accounting Question
 				XmlAccountingQuestion question = (XmlAccountingQuestion) accountingUnmarshaller
 						.unmarshal(new StringReader(fileAsString));
@@ -121,7 +126,7 @@ public class AccountingQuestionManager extends QuestionManager {
 				throw new IllegalArgumentException(
 						"Question type not supported. File: " + f);
 			}
-
+			LogHelper.logInfo("Loaded question with filename:" + f.getName());
 		}
 		// Add question to the question manager
 		accountingList.forEach(q -> addQuestion(q));
