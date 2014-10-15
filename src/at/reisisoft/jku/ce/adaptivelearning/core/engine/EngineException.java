@@ -9,7 +9,7 @@ public class EngineException extends Exception {
 	}
 
 	public EngineException(Throwable cause) {
-		super(cause);
+		super(cause.getMessage(), cause);
 	}
 
 }

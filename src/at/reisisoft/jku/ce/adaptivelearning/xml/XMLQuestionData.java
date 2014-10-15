@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
+import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "questionData")
@@ -32,7 +33,12 @@ public abstract class XmlQuestionData<DataStorage extends AnswerStorage>
 			try {
 				dataStorage = getDataStorageClass().newInstance();
 			} catch (InstantiationException | IllegalAccessException e) {
-				e.printStackTrace();
+				Class<DataStorage> class1 = getDataStorageClass();
+				LogHelper
+				.logError(class1.getName()
+						+ " does not implement an empty constructor as required by"
+						+ AnswerStorage.class.getName());
+				LogHelper.logThrowable(e);
 			}
 		}
 		this.dataStorage = dataStorage;

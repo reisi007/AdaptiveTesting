@@ -14,6 +14,7 @@ import rcaller.RCaller;
 import rcaller.RCode;
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
+import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.EngineException;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.HistoryEntry;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.ICurrentQuestionChangeListener;
@@ -162,7 +163,7 @@ public class SimpleEngine implements IEngine {
 			try {
 				listener.resultFired(args);
 			} catch (EngineException e) {
-				e.printStackTrace();
+				LogHelper.logThrowable(e);
 			}
 		}
 	}

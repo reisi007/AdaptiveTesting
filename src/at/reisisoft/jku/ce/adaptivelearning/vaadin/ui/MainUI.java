@@ -3,6 +3,7 @@ package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.core.VaadinUI;
 
@@ -34,7 +35,7 @@ public class MainUI extends VerticalLayout implements View {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-
+				LogHelper.logInfo("Opened LicenceWindow");
 				LicenceWindow licenceWindow = new LicenceWindow();
 				licenceWindow.addCloseListener(new CloseListener() {
 

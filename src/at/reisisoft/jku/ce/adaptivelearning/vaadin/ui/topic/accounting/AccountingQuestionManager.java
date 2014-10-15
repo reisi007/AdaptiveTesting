@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -19,6 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
 
+import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.AccountingDataProvider;
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.AccountingDataStorage;
 import at.reisisoft.jku.ce.adaptivelearning.topic.accounting.AccountingQuestion;
@@ -135,8 +135,8 @@ public class AccountingQuestionManager extends QuestionManager {
 			loadQuestions(new File(VaadinUI.Servlet.getQuestionFolderName()));
 		} catch (JAXBException | IOException e1) {
 			Notification.show("Questions could not be loaded - FATAL error",
-					e1.getMessage() + Arrays.toString(e1.getStackTrace()),
-					Type.ERROR_MESSAGE);
+					e1.getMessage() + e1.getMessage(), Type.ERROR_MESSAGE);
+			LogHelper.logThrowable(e1);
 		}
 
 	}

@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
+import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 import at.reisisoft.jku.ce.adaptivelearning.xml.XmlQuestionData;
 
 import com.vaadin.shared.ui.label.ContentMode;
@@ -48,6 +49,7 @@ public abstract class MockQuestion<Question extends IQuestion<T> & Component, T 
 						"<h1>Error parsing XML</h1><p>" + e1.getMessage()
 								+ Arrays.toString(e1.getStackTrace()),
 						ContentMode.HTML);
+				LogHelper.logThrowable(e1);
 			}
 			layout.addComponent(label);
 			window.center();

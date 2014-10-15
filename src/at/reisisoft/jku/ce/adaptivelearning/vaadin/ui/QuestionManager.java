@@ -2,11 +2,11 @@ package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.core.IResultView;
+import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.EngineException;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.ICurrentQuestionChangeListener;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine;
@@ -59,9 +59,9 @@ public abstract class QuestionManager extends VerticalLayout implements
 			try {
 				iEngine.requestCalculation();
 			} catch (EngineException e1) {
-				Notification.show(
-						"The following exception occoured:" + e1.getClass(),
-						Arrays.toString(e1.getStackTrace()), Type.ERROR_MESSAGE);
+				Notification.show("Error on calculating the next question.",
+						"Visit the log for more infos", Type.ERROR_MESSAGE);
+				LogHelper.logThrowable(e1);
 			}
 		});
 		southLayout.addComponent(next, 2, 0);
@@ -74,6 +74,7 @@ public abstract class QuestionManager extends VerticalLayout implements
 			} catch (EngineException e1) {
 				Notification.show("Engine could not be initialized",
 						Type.ERROR_MESSAGE);
+				LogHelper.logThrowable(e1);
 
 			}
 		} else {
@@ -105,7 +106,9 @@ public abstract class QuestionManager extends VerticalLayout implements
 	public void resultFired(ResultFiredArgs args) throws EngineException {
 		IResultView result;
 		if (resultViewClass == null) {
-			throw new NullPointerException("You forget to set the result view");
+			String msg = "You forget to set the result view";
+			LogHelper.logError(msg);
+			throw new NullPointerException(msg);
 		}
 		Constructor<? extends IResultView> resultConstructor;
 		try {
@@ -116,6 +119,9 @@ public abstract class QuestionManager extends VerticalLayout implements
 				| InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException
 				| NullPointerException e) {
+			LogHelper.logInfo(resultViewClass.getName()
+					+ " does not implement the constructors of "
+					+ IResultView.class.getName());
 			throw new EngineException(e);
 		}
 
@@ -155,8 +161,9 @@ public abstract class QuestionManager extends VerticalLayout implements
 		try {
 			iEngine.start();
 		} catch (EngineException e) {
-			Notification.show("Engine could not be started",
-					Arrays.toString(e.getStackTrace()), Type.ERROR_MESSAGE);
+			Notification.show("Engine could not be started", e.getCause()
+					.getMessage(), Type.ERROR_MESSAGE);
+			LogHelper.logThrowable(e);
 		}
 	}
 

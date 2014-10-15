@@ -6,6 +6,7 @@ import java.util.List;
 import at.reisisoft.jku.ce.adaptivelearning.core.AnswerStorage;
 import at.reisisoft.jku.ce.adaptivelearning.core.IQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.core.IResultView;
+import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.HistoryEntry;
 import at.reisisoft.jku.ce.adaptivelearning.core.engine.ResultFiredArgs;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
@@ -109,7 +110,12 @@ public class VaadinResultView extends VerticalLayout implements View,
 					qSolution = new Button(solution, clickListenerSol);
 
 				} catch (Exception e) {
-					// Ignore this line
+					// Ignore this line in the table
+					LogHelper
+					.logInfo("1 entry's solution/ user answer are missing on the final screen."
+							+ entry.question.getClass().getName()
+							+ " does not implement the constructors required by"
+							+ IQuestion.class.getName());
 				}
 			}
 

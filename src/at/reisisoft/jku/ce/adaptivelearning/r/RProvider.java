@@ -12,6 +12,7 @@ import rcaller.Globals;
 import rcaller.RCaller;
 import rcaller.RCode;
 import rcaller.ROutputParser;
+import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 
 public class RProvider {
 
@@ -67,7 +68,8 @@ public class RProvider {
 				caller.redirectROutputToStream(byteArrayOutputStream);
 				caller.runOnly();
 			} catch (Exception e) {
-				throw new ScriptException(byteArrayOutputStream.toString());
+				LogHelper.logRError(byteArrayOutputStream.toString());
+				throw new ScriptException(e);
 			}
 		}
 
@@ -82,7 +84,8 @@ public class RProvider {
 				caller.redirectROutputToStream(byteArrayOutputStream);
 				caller.runAndReturnResult(toReturn);
 			} catch (Exception e) {
-				throw new ScriptException(byteArrayOutputStream.toString());
+				LogHelper.logRError(byteArrayOutputStream.toString());
+				throw new ScriptException(e);
 			}
 		}
 

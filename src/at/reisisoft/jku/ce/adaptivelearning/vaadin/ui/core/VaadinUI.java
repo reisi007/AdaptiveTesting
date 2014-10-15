@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
 import at.reisisoft.jku.ce.adaptivelearning.ProductData;
+import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlUtils;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.MainUI;
@@ -59,9 +60,8 @@ public class VaadinUI extends UI {
 		final QuestionManager manager = new AccountingQuestionManager(
 				"Accounting Quiz");
 		navigator.addView(Views.TEST.toString(), manager);
-
 		navigator.setErrorView(mainScreen);
-
+		LogHelper.logInfo("Startup completed");
 	}
 
 	@WebServlet(value = "/*", asyncSupported = true)
