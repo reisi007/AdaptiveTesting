@@ -10,7 +10,8 @@ public class LogHelper {
 	}
 
 	public static void logThrowable(Throwable throwable) {
-		logger.error("An exception occured:", throwable);
+		logger.error("An exception occured:" + throwable.getMessage(),
+				throwable);
 	}
 
 	public static void logRError(String string) {

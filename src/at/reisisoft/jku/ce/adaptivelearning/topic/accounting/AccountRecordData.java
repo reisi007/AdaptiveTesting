@@ -16,7 +16,7 @@ public class AccountRecordData implements Serializable {
 	public String toString() {
 		return "(" + accountNumber + ") "
 				+ (accountName == null ? "???" : accountName) + " " + value
-				+ '€';
+				+ 'â‚¬';
 	}
 
 	@XmlElement(name = "accountName")

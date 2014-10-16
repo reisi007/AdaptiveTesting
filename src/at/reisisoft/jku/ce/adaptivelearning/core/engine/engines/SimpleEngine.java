@@ -204,7 +204,9 @@ public class SimpleEngine implements IEngine {
 			// [2] ->Delta to result
 			double[] result = rProvider.execute(caller, rCode, rNameReturn)
 					.getAsDoubleArray(rNameReturn);
-
+			LogHelper.logInfo("Calculation result:\tNext item: " + result[0]
+					+ "\tCurrent competence:\t" + result[1] + "\tDelta:\t"
+					+ result[2]);
 			// Get array position of difficulty
 			IQuestion<? extends AnswerStorage> nextQuestion = getQuestion(getArrayPositionFromWantedDifficulty(result[0]));
 			if (nextQuestion == null || result[2] < 0.5d) {
@@ -312,7 +314,7 @@ public class SimpleEngine implements IEngine {
 		// Newline
 		String nl = System.getProperty("line.separator");
 		// Get R matrix (input)
-		StringBuilder sb = new StringBuilder("double <- matrix(c(");
+		StringBuilder sb = new StringBuilder("double <- c(");
 		Iterator<String> iterator = history
 				.stream()
 				.map(e -> e.question.getDifficulty() + ","
@@ -323,8 +325,7 @@ public class SimpleEngine implements IEngine {
 		while (iterator.hasNext()) {
 			sb.append(',').append(iterator.next());
 		}
-		String inputMatrix = sb.append("),nrow=").append(history.size())
-				.append(",ncol=2,byrow=TRUE)").toString();
+		String inputMatrix = sb.append(")").toString();
 		return "library(catR, lib.loc=\""
 				+ r_libFolder
 				+ "\")"
@@ -335,9 +336,15 @@ public class SimpleEngine implements IEngine {
 		+ nl
 		+ "itembank <- unname(as.matrix(cbind(1, item_diff, 0, 1)))"
 		+ nl
-		+ "response_pattern <- double[,1]"
+		+ "stellen <- 1:length(double)"
 		+ nl
-		+ "pre_items_diff <- as.matrix(double[,2],length(response_pattern)) "
+		+ "ungerade <- stellen[which(stellen %% 2 != 0)]"
+		+ nl
+		+ "gerade <- stellen[which(stellen %% 2 == 0)]"
+		+ nl
+		+ "response_pattern <- double[gerade]"
+		+ nl
+		+ "pre_items_diff <- as.matrix(double[ungerade],length(response_pattern)) "
 		+ nl
 		+ "previous_items <- as.matrix(rep(0, length(response_pattern), length(response_pattern)))"
 		+ nl
@@ -345,7 +352,7 @@ public class SimpleEngine implements IEngine {
 		+ nl
 		+ "for (j in 1:nrow(itembank)) {"
 		+ nl
-		+ "if(pre_items_diff[i,1]==itembank[j,2]) (previous_items[i,1] <- print(j))"
+		+ "if(pre_items_diff[i,1]==itembank[j,2]) (previous_items[i,1] <-j)"
 		+ nl
 		+ "}"
 		+ nl

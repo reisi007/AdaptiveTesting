@@ -300,7 +300,11 @@ public class AccountingDataProvider {
 
 	public boolean containsNumber(int number) {
 		String intString = Integer.toString(number);
+		if (intString.length() == 1) {
+			intString = "0" + intString;
+		}
+		String finString = intString;
 		return data.stream().map(e -> e[0].substring(0, 2))
-				.filter(s -> intString.equals(s)).count() > 0;
+				.filter(s -> finString.equals(s)).count() > 0;
 	}
 }

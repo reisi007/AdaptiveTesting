@@ -10,20 +10,21 @@ import javax.script.ScriptException;
 
 import rcaller.Globals;
 import rcaller.RCaller;
+import rcaller.RCaller.FailurePolicy;
 import rcaller.RCode;
 import rcaller.ROutputParser;
 import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 
 public class RProvider {
 
-	private String r_exe;
+	private String rScript_exe;
 	private final ByteArrayOutputStream byteArrayOutputStream;
 
 	public RProvider() throws ScriptException {
 		byteArrayOutputStream = new ByteArrayOutputStream();
 		// Guess R location
 		Globals.detect_current_rscript();
-		StringBuilder rPath = new StringBuilder(Globals.Rscript_current);
+		StringBuilder rPath = new StringBuilder(Globals.R_current);
 		// Guessing is not good on Windows, DIY
 		if (System.getProperty("os.name").startsWith("Win")) {
 			rPath.setLength(0);
@@ -46,13 +47,14 @@ public class RProvider {
 				// 64 bit VM -> 64 bit R required
 				rPath.append("x64\\");
 			}
-			r_exe = rPath.append("RScript.exe").toString();
+			rScript_exe = rPath.append("Rscript.exe").toString();
 		}
 	}
 
 	public RCaller getRCaller() throws ScriptException {
 		RCaller caller = new RCaller();
-		caller.setRscriptExecutable(r_exe);
+		caller.setRscriptExecutable(rScript_exe);
+		caller.setFailurePolicy(FailurePolicy.RETRY_1);
 		return caller;
 	}
 
@@ -70,6 +72,8 @@ public class RProvider {
 			} catch (Exception e) {
 				LogHelper.logRError(byteArrayOutputStream.toString());
 				throw new ScriptException(e);
+			} finally {
+				caller.StopRCallerOnline();
 			}
 		}
 
@@ -86,6 +90,8 @@ public class RProvider {
 			} catch (Exception e) {
 				LogHelper.logRError(byteArrayOutputStream.toString());
 				throw new ScriptException(e);
+			} finally {
+				caller.StopRCallerOnline();
 			}
 		}
 

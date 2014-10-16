@@ -53,7 +53,7 @@ public class AccountingQuestionManager extends QuestionManager {
 			layout.setSizeFull();
 			window.setContent(layout);
 			window.center();
-			window.setWidth("60%");
+				window.setWidth("60%");
 			window.setHeight("80%");
 			window.setResizable(false);
 			window.addCloseListener(e1 -> openKontenplan.setEnabled(true));
@@ -107,7 +107,7 @@ public class AccountingQuestionManager extends QuestionManager {
 					reader.close();
 				}
 			}
-			String fileAsString = sb.toString();
+			String fileAsString = sb.toString().replaceAll("& ", "&amp; ");
 			if (fileAsString.contains(profitRootElement)) {
 				LogHelper.logInfo("Question detected as "
 						+ ProfitQuestion.class.getName());
