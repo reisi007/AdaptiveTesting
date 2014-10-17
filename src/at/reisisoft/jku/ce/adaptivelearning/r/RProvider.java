@@ -18,10 +18,9 @@ import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 public class RProvider {
 
 	private String rScript_exe;
-	private final ByteArrayOutputStream byteArrayOutputStream;
+	private final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
 	public RProvider() throws ScriptException {
-		byteArrayOutputStream = new ByteArrayOutputStream();
 		// Guess R location
 		Globals.detect_current_rscript();
 		StringBuilder rPath = new StringBuilder(Globals.R_current);
@@ -51,6 +50,27 @@ public class RProvider {
 		}
 	}
 
+	public void run(RCaller caller, RCode code) throws ScriptException {
+		caller.setRCode(code);
+		synchronized (byteArrayOutputStream) {
+			byteArrayOutputStream.reset();
+			try {
+				caller.redirectROutputToStream(byteArrayOutputStream);
+				caller.runOnly();
+			} catch (Exception e) {
+				LogHelper.logRError(byteArrayOutputStream.toString());
+				throw new ScriptException(e);
+			} finally {
+				caller.StopRCallerOnline();
+				if (byteArrayOutputStream.size() > 0) {
+					LogHelper.logRError(byteArrayOutputStream.toString());
+				} else {
+					LogHelper.logInfo("R calculation successful");
+				}
+			}
+		}
+	}
+
 	public RCaller getRCaller() throws ScriptException {
 		RCaller caller = new RCaller();
 		caller.setRscriptExecutable(rScript_exe);
@@ -62,29 +82,12 @@ public class RProvider {
 		return new RCode();
 	}
 
-	public void run(RCaller caller, RCode code) throws ScriptException {
-		caller.setRCode(code);
-		synchronized (byteArrayOutputStream) {
-			try {
-				byteArrayOutputStream.reset();
-				caller.redirectROutputToStream(byteArrayOutputStream);
-				caller.runOnly();
-			} catch (Exception e) {
-				LogHelper.logRError(byteArrayOutputStream.toString());
-				throw new ScriptException(e);
-			} finally {
-				caller.StopRCallerOnline();
-			}
-		}
-
-	}
-
 	public ROutputParser execute(RCaller caller, RCode code, String toReturn)
 			throws ScriptException {
 		caller.setRCode(code);
 		synchronized (byteArrayOutputStream) {
+			byteArrayOutputStream.reset();
 			try {
-				byteArrayOutputStream.reset();
 				caller.redirectROutputToStream(byteArrayOutputStream);
 				caller.runAndReturnResult(toReturn);
 			} catch (Exception e) {
@@ -92,6 +95,11 @@ public class RProvider {
 				throw new ScriptException(e);
 			} finally {
 				caller.StopRCallerOnline();
+				if (byteArrayOutputStream.size() > 0) {
+					LogHelper.logRError(byteArrayOutputStream.toString());
+				} else {
+					LogHelper.logInfo("R calculation successful");
+				}
 			}
 		}
 

@@ -1,6 +1,7 @@
 package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.core;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import at.reisisoft.jku.ce.adaptivelearning.ProductData;
 import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlUtils;
+import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.LogView;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.MainUI;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.QuestionManager;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.topic.accounting.AccountingQuestionManager;
@@ -48,9 +50,9 @@ public class VaadinUI extends UI {
 		mainScreen.addComponent(new HtmlLabel(HtmlUtils.center("h1",
 				"Welcome to " + productData)));
 		mainScreen
-		.addComponent(new HtmlLabel(HtmlUtils.center("h2",
-				"Click the <b>" + start.getCaption()
-				+ "</b> Button to start!")));
+				.addComponent(new HtmlLabel(HtmlUtils.center("h2",
+						"Click the <b>" + start.getCaption()
+								+ "</b> Button to start!")));
 		mainScreen.addComponent(start);
 		mainScreen.setComponentAlignment(start, Alignment.MIDDLE_CENTER);
 
@@ -60,6 +62,8 @@ public class VaadinUI extends UI {
 		final QuestionManager manager = new AccountingQuestionManager(
 				"Accounting Quiz");
 		navigator.addView(Views.TEST.toString(), manager);
+		navigator.addView(Views.Log.toString(),
+				new LogView(new File(Servlet.getLogFileName())));
 		navigator.setErrorView(mainScreen);
 		LogHelper.logInfo("Startup completed");
 	}
@@ -72,17 +76,31 @@ public class VaadinUI extends UI {
 			super.servletInitialized();
 			// Get the question folder as defined in WEB-INF/web.xml
 			questionFolderName = getServletConfig().getServletContext()
-					.getInitParameter(initKey);
-			File file = new File(questionFolderName);
-			boolean isWorking = file.exists() && file.isDirectory()
-					|| file.mkdirs();
+					.getInitParameter(questionFolderKey);
+			File fQf = new File(questionFolderName);
+			boolean isWorking = fQf.exists() && fQf.isDirectory()
+					|| fQf.mkdirs();
 			if (!isWorking) {
 				questionFolderName = null;
 			}
+			// Get the log location as defined in WEB-INF/web.xml
+			logLocation = getServletConfig().getServletContext()
+					.getInitParameter(logLocKey);
+			File fLog = new File(logLocation);
+			try {
+				isWorking = fLog.exists() && fLog.isFile()
+						|| fLog.createNewFile();
+			} catch (IOException e) {
+				isWorking = false;
+			}
+			if (!isWorking) {
+				logLocation = null;
+			}
 		}
 
-		private static String questionFolderName = null;
-		private final static String initKey = "at.reisisoft.jku.ce.adaptivelearning.questionfolder";
+		private static String questionFolderName = null, logLocation = null;
+		private final static String questionFolderKey = "at.reisisoft.jku.ce.adaptivelearning.questionfolder";
+		private final static String logLocKey = "at.reisisoft.jku.ce.adaptivelearning.logfilepath";
 
 		/**
 		 * Gets the question folder name
@@ -92,6 +110,16 @@ public class VaadinUI extends UI {
 		 */
 		public static String getQuestionFolderName() {
 			return questionFolderName;
+		}
+
+		/**
+		 * Gets the Log location
+		 *
+		 * @return NULL if not set, or the String is not a valid file / a file
+		 *         at this location could not be created.
+		 */
+		public static String getLogFileName() {
+			return logLocation;
 		}
 	}
 

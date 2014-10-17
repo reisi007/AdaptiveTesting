@@ -13,4 +13,8 @@
   <param-name>at.reisisoft.jku.ce.adaptivelearning.questionfolder</param-name>
   <param-value>D:\JKU\ce\vaadin\questions</param-value>
 </context-param>
+<context-param>
+  <param-name>at.reisisoft.jku.ce.adaptivelearning.logfilepath</param-name>
+  <param-value>D:\JKU\ce\vaadin\AdaptiveTesting.log</param-value>
+</context-param>
 </web-app>

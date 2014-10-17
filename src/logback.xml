@@ -8,6 +8,9 @@
     <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
   </encoder>
   </appender>
+  <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <maxFileSize>5MB</maxFileSize>
+    </triggeringPolicy>
    
   <logger name="AdaptiveTesting" level="INFO"/>
     <root level="debug">
