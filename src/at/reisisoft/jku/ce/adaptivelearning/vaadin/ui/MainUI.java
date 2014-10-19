@@ -6,7 +6,9 @@ import java.util.GregorianCalendar;
 import at.reisisoft.jku.ce.adaptivelearning.core.LogHelper;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
 import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.core.VaadinUI;
+import at.reisisoft.jku.ce.adaptivelearning.vaadin.ui.core.Views;
 
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
@@ -54,12 +56,19 @@ public class MainUI extends VerticalLayout implements View {
 		});
 		Label copyright = new HtmlLabel("<i>© Reisisoft 2014 - "
 				+ new GregorianCalendar().get(Calendar.YEAR) + "</i>");
+		Button openLog = new Button("Open Log", (ClickListener) event -> {
+			Navigator navigator = getUI().getNavigator();
+			assert navigator != null;
+			navigator.navigateTo(Views.Log.toString());
+
+		});
 		// Add the flowLayout at position 1 (second element) -> centered
 		// Add everthing to flowlayout
-		GridLayout southLayout = new GridLayout(2, 1);
+		GridLayout southLayout = new GridLayout(3, 1);
 		southLayout.setWidth("100%");
 		southLayout.addComponent(licences, 0, 0);
-		southLayout.addComponent(copyright, 1, 0);
+		southLayout.addComponent(openLog, 1, 0);
+		southLayout.addComponent(copyright, 2, 0);
 		// Add southlayout to the main Layout
 		addComponent(southLayout);
 		setComponentAlignment(southLayout, Alignment.BOTTOM_CENTER);

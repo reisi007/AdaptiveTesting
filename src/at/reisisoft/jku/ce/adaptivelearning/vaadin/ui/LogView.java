@@ -18,6 +18,7 @@ public class LogView extends Label implements View {
 	public LogView(File file) {
 		this.file = file;
 		setContentMode(ContentMode.PREFORMATTED);
+
 	}
 
 	private static final long serialVersionUID = 5066697583930352899L;
@@ -26,7 +27,7 @@ public class LogView extends Label implements View {
 	public void enter(ViewChangeEvent event) {
 		String fileContent;
 		try {
-			fileContent = Files.toString(file, Charset.forName("utf-8"));
+			fileContent = Files.toString(file, Charset.defaultCharset());
 		} catch (IOException e) {
 			LogHelper.logThrowable(e);
 			fileContent = "Could not load file due to:"
