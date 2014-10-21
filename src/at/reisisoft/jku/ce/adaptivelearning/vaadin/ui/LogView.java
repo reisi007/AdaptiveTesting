@@ -1,5 +1,8 @@
 package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 
+/*This file is part of the project "Reisisoft Adaptive Testing",
+ * which is licenced under LGPL v3+. You may find a copy in the source,
+ * or obtain one at http://www.gnu.org/licenses/lgpl-3.0-standalone.html */
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;

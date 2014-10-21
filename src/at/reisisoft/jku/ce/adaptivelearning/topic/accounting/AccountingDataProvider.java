@@ -1,5 +1,8 @@
 package at.reisisoft.jku.ce.adaptivelearning.topic.accounting;
 
+/*This file is part of the project "Reisisoft Adaptive Testing",
+ * which is licenced under LGPL v3+. You may find a copy in the source,
+ * or obtain one at http://www.gnu.org/licenses/lgpl-3.0-standalone.html */
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +25,7 @@ public class AccountingDataProvider {
 		data.add(new String[] { "0110", "Patente und Lizenzen" });
 		data.add(new String[] { "0120", "Datenverarbeitungsprogramme" });
 		data.add(new String[] { "0180",
-				"Geleistete Anzahlungen für immaterielle Vermögensgegenstände" });
+		"Geleistete Anzahlungen für immaterielle Vermögensgegenstände" });
 		data.add(new String[] { "0200", "Unbebaute Grundstücke" });
 		data.add(new String[] { "0210", "Bebaute Grundstücke" });
 		data.add(new String[] { "0300", "Betriebs- & Geschäftsgebäude" });
@@ -86,16 +89,16 @@ public class AccountingDataProvider {
 		data.add(new String[] { "2900", "Aktive Rechnungsabgrenzung" });
 		data.add(new String[] { "3000", "Rückstellungen Abfertigung" });
 		data.add(new String[] { "3040",
-				"Rückstellung Rechts- und Steuerberatungsaufwand" });
+		"Rückstellung Rechts- und Steuerberatungsaufwand" });
 		data.add(new String[] { "3045", "Rückstellung Prozesskosten" });
 		data.add(new String[] { "3090", "Sonstige Rückstellungen" });
 		data.add(new String[] { "3110",
-				"Bank (Bankschuld, Verbindlichkeiten gegenüber Kreditinstituten)" });
+		"Bank (Bankschuld, Verbindlichkeiten gegenüber Kreditinstituten)" });
 		data.add(new String[] { "3150", "Darlehen (von einer Bank)" });
 		data.add(new String[] { "3160", "Verbindlichkeiten Darlehenszinsen" });
 		data.add(new String[] { "3170", "Barverkehr mit Banken" });
 		data.add(new String[] { "3180",
-				"Verbindlichkeiten Kreditkartenunternehmen" });
+		"Verbindlichkeiten Kreditkartenunternehmen" });
 		data.add(new String[] { "3190", "Verbindlichkeiten Bankomatkarten" });
 		data.add(new String[] { "3300", "Lieferverbindlichkeiten" });
 		data.add(new String[] { "3301", "AAtech GmbH" });
@@ -133,7 +136,7 @@ public class AccountingDataProvider {
 		data.add(new String[] { "4610", "Versicherungsentschädigung " });
 		data.add(new String[] { "4660", "Erträge aus Zuschreibung AV" });
 		data.add(new String[] { "4700",
-				"Erträge aus Auflösung von Rückstellungen" });
+		"Erträge aus Auflösung von Rückstellungen" });
 		data.add(new String[] { "4801", "Peronsalverpflegungserlöse Speisen" });
 		data.add(new String[] { "4802", "Personalverpflegungserlöse Getränke" });
 		data.add(new String[] { "4812", "andere Personalverpflegungserlöse" });
@@ -141,7 +144,7 @@ public class AccountingDataProvider {
 		data.add(new String[] { "4820", "Provisionserträge" });
 		data.add(new String[] { "4850", "Erträge aus Konventionalstrafen" });
 		data.add(new String[] { "4870",
-				"Erträge aus Auflösung von WB zu Forderungen" });
+		"Erträge aus Auflösung von WB zu Forderungen" });
 		data.add(new String[] { "4880", "übrige betriebliche Erträge" });
 		data.add(new String[] { "4890", "Mahnspesenvergütung" });
 		data.add(new String[] { "4901", "Eigenverbrauch 10 %" });
@@ -151,13 +154,13 @@ public class AccountingDataProvider {
 		data.add(new String[] { "5010", "Handelswareneinsatz" });
 		data.add(new String[] { "5100", "Rohstoffverbrauch (-einsatz)" });
 		data.add(new String[] { "5200",
-				"Verbrauch von bezogenen Fertig- und Einzelteilen" });
+		"Verbrauch von bezogenen Fertig- und Einzelteilen" });
 		data.add(new String[] { "5201", "Wareneinsatz Bier" });
 		data.add(new String[] { "5210", "Wareneinsatz Wein" });
 		data.add(new String[] { "5220", "Wareneinsatz Sekt- und Schaumweine" });
 		data.add(new String[] { "5230", "Wareneinsatz Spirituosen und Liköre" });
 		data.add(new String[] { "5240",
-				"Wareneinsatz sonstige alkoholische Getränke" });
+		"Wareneinsatz sonstige alkoholische Getränke" });
 		data.add(new String[] { "5260", "Wareneinsatz Kaffe, Tee, Kakao" });
 		data.add(new String[] { "5270", "Wareneinsatz alkoholfreie Getränke" });
 		data.add(new String[] { "5300", "Hilfsstoffverbrauch" });
@@ -167,7 +170,7 @@ public class AccountingDataProvider {
 		data.add(new String[] { "5420", "Reparaturmaterialverbrauch" });
 		data.add(new String[] { "5450", "Reinigungsmaterialverbrauch" });
 		data.add(new String[] { "5500",
-				"Verbrauch von Werkzeugen, Erzeugungshilfsmitteln" });
+		"Verbrauch von Werkzeugen, Erzeugungshilfsmitteln" });
 		data.add(new String[] { "5510", "Ersatzteileverbrauch" });
 		data.add(new String[] { "5550", "Leerguteinsatz (Emballagen)" });
 		data.add(new String[] { "5600", "Heizölverbrauch" });
@@ -175,7 +178,7 @@ public class AccountingDataProvider {
 		data.add(new String[] { "5620", "Gasverbrauch" });
 		data.add(new String[] { "5630", "Stromverbrauch" });
 		data.add(new String[] { "5640",
-				"Heizmaterialverbrauch (feste Brennstoffe)" });
+		"Heizmaterialverbrauch (feste Brennstoffe)" });
 		data.add(new String[] { "5880", "Lieferantenskonti Wareneinkauf" });
 		data.add(new String[] { "5881", "Lieferantenskonti Anlagenkäufe" });
 		data.add(new String[] { "5890", "Umsatzbonus auf Wareneinkauf" });
@@ -187,7 +190,7 @@ public class AccountingDataProvider {
 		data.add(new String[] { "6300", "Lehrlingsentschädigungen Angestellter" });
 		data.add(new String[] { "6500", "Gesetzlicher Sozialaufwand Arbeiter" });
 		data.add(new String[] { "6560",
-				"Gesetzlicher Sozialaufwand Angestellter" });
+		"Gesetzlicher Sozialaufwand Angestellter" });
 		data.add(new String[] { "6600", "Dienstgeberbeitrag Arbeiter" });
 		data.add(new String[] { "6610", "Zuschlag DB Arbeiter" });
 		data.add(new String[] { "6620", "Kommunalsteuer Arbeiter" });
@@ -204,7 +207,7 @@ public class AccountingDataProvider {
 		data.add(new String[] { "7050", "Außerplanmäßige Abschreibung" });
 		data.add(new String[] { "7100", "Grundsteuer" });
 		data.add(new String[] { "7150",
-				"Tourismusabgabe (Interessentenbeitrag)" });
+		"Tourismusabgabe (Interessentenbeitrag)" });
 		data.add(new String[] { "7180", "Gebühren" });
 		data.add(new String[] { "7190", "Sonstige Abgaben" });
 		data.add(new String[] { "7200", "Instandhaltung durch Dritte" });
@@ -214,10 +217,10 @@ public class AccountingDataProvider {
 		data.add(new String[] { "7310", "Paketgebühren" });
 		data.add(new String[] { "7320", "Pkw- & Kombi Betriebsaufwand" });
 		data.add(new String[] { "7321",
-				"Motorbezogene Versicherungssteuer Pkw und Kombis" });
+		"Motorbezogene Versicherungssteuer Pkw und Kombis" });
 		data.add(new String[] { "7325", "Versicherungsaufwand Pkw und Kombis" });
 		data.add(new String[] { "7326",
-				"Parkgebühren, Straßenmaut Pkw und Kombis" });
+		"Parkgebühren, Straßenmaut Pkw und Kombis" });
 		data.add(new String[] { "7330", "Lkw Betriebsaufwand " });
 		data.add(new String[] { "7331", "Motorbezogene Versicherungssteuer Lkw" });
 		data.add(new String[] { "7332", "Kraftfahrzeugsteuer Lkw" });
@@ -235,14 +238,14 @@ public class AccountingDataProvider {
 		data.add(new String[] { "7700", "Versicherungsaufwand" });
 		data.add(new String[] {
 				"7740",
-				"Versicherungsbeiträge an die Sozialversicherungsanstalt der gewerblichen Wirtschaft" });
+		"Versicherungsbeiträge an die Sozialversicherungsanstalt der gewerblichen Wirtschaft" });
 		data.add(new String[] { "7750", "Rechts- und Beratungsaufwand" });
 		data.add(new String[] { "7755", "Steuerberatungsaufwand" });
 		data.add(new String[] { "7780", "Kammerumlage" });
 		data.add(new String[] { "7790", "Spesen des Geldverkehrs" });
 		data.add(new String[] { "7791", "Sonstige Bankspesen" });
 		data.add(new String[] { "7792",
-				"Provisionen, Gebühren, Kredit-, Bankomatkarten und Quick" });
+		"Provisionen, Gebühren, Kredit-, Bankomatkarten und Quick" });
 		data.add(new String[] { "7800", "Abschreibung Vorräte" });
 		data.add(new String[] { "7802", "Abschreibung Forderungen" });
 		data.add(new String[] { "7805", "Zuweisung zu WB zu Forderung" });
@@ -250,7 +253,7 @@ public class AccountingDataProvider {
 		data.add(new String[] { "7819", "Sonstige Schadensfälle" });
 		data.add(new String[] { "7850", "übrige betriebliche Aufwendungen" });
 		data.add(new String[] { "7890",
-				"Lieferantenskonti auf sonstige betriebliche Aufwendungen" });
+		"Lieferantenskonti auf sonstige betriebliche Aufwendungen" });
 		data.add(new String[] { "8100", "Zinserträge aus Bankguthaben" });
 		data.add(new String[] { "8110", "Zinserträge aus gew. Darlehen" });
 		data.add(new String[] { "8130", "Verzugszinsenerträge" });
@@ -258,7 +261,7 @@ public class AccountingDataProvider {
 		data.add(new String[] { "8280", "Zinsaufwand für Bankkredite" });
 		data.add(new String[] {
 				"8285",
-				"Sonstiger aufwand für Bankkredite (z.B. Bereitstellungsprovision, Überziehungsprovision)" });
+		"Sonstiger aufwand für Bankkredite (z.B. Bereitstellungsprovision, Überziehungsprovision)" });
 		data.add(new String[] { "8290", "Zinsenaufwand für Darlehen" });
 		data.add(new String[] { "8300", "Verzugsinsenaufwand" });
 		data.add(new String[] { "8301", "Mahnspesen" });
@@ -295,7 +298,7 @@ public class AccountingDataProvider {
 		return string == null
 				|| string.length() == 0
 				|| data.stream().map(e -> e[1]).filter(e -> e.equals(string))
-						.count() > 0;
+				.count() > 0;
 	}
 
 	public boolean containsNumber(int number) {

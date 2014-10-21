@@ -1,8 +1,11 @@
 package at.reisisoft.jku.ce.adaptivelearning;
 
+/*This file is part of the project "Reisisoft Adaptive Testing",
+ * which is licenced under LGPL v3+. You may find a copy in the source,
+ * or obtain one at http://www.gnu.org/licenses/lgpl-3.0-standalone.html */
 public class ProductData {
 	private final int mjVers = 0;
-	private final int minVers = 4;
+	private final int minVers = 5;
 	private final int micVers = 0;
 	private final String company = "Reisisoft";
 	private final String product = "Adaptive Testing";

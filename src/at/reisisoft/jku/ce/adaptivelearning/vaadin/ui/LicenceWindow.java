@@ -1,5 +1,8 @@
 package at.reisisoft.jku.ce.adaptivelearning.vaadin.ui;
 
+/*This file is part of the project "Reisisoft Adaptive Testing",
+ * which is licenced under LGPL v3+. You may find a copy in the source,
+ * or obtain one at http://www.gnu.org/licenses/lgpl-3.0-standalone.html */
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLabel;
 import at.reisisoft.jku.ce.adaptivelearning.html.HtmlLink;
 
@@ -23,12 +26,15 @@ public class LicenceWindow extends Window {
 		setContent(vLayout);
 		vLayout.setMargin(true);
 		// Add the 3rd party licences
-		addAddonLicence(new HtmlLink("http://www.mhsatman.com/rcaller.php",
+		addLibraryLicence(new HtmlLink("https://vaadin.com/",
+				"Vaadin Framework", true), apache2);
+		addLibraryLicence(new HtmlLink("http://www.mhsatman.com/rcaller.php",
 				"RCaller 2.0", true), lgpl3);
+
 	}
 
-	public void addAddonLicence(HtmlLink addon, HtmlLink licence) {
-		vLayout.addComponent(new HtmlLabel(addon + " ( " + licence + ')'));
+	public void addLibraryLicence(HtmlLink library, HtmlLink licence) {
+		vLayout.addComponent(new HtmlLabel(library + " ( " + licence + ')'));
 	}
 
 }

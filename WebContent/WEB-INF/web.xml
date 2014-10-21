@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is part of the project "Reisisoft Adaptive Testing", which is licenced under LGPL v3+. You may find a copy in the source, or obtain one at http://www.gnu.org/licenses/lgpl-3.0-standalone.html-->
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <display-name>Vaadin</display-name>
   <welcome-file-list>

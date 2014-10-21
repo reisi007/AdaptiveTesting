@@ -1,5 +1,8 @@
 package at.reisisoft.jku.ce.adaptivelearning.core.engine.engines;
 
+/*This file is part of the project "Reisisoft Adaptive Testing",
+ * which is licenced under LGPL v3+. You may find a copy in the source,
+ * or obtain one at http://www.gnu.org/licenses/lgpl-3.0-standalone.html */
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,7 +77,7 @@ public class SimpleEngine implements IEngine {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#addQuestionToPool
 	 * (at.reisisoft.jku.ce.adaptivelearning.core.IQuestion)
@@ -96,7 +99,7 @@ public class SimpleEngine implements IEngine {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#
 	 * addQuestionChangeListener
 	 * (at.reisisoft.jku.ce.adaptivelearning.core.engine
@@ -111,7 +114,7 @@ public class SimpleEngine implements IEngine {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#
 	 * addResultFiredListener
 	 * (at.reisisoft.jku.ce.adaptivelearning.core.engine.IResultFiredListener)
@@ -124,7 +127,7 @@ public class SimpleEngine implements IEngine {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#
 	 * removeQuestionChangeListener
 	 * (at.reisisoft.jku.ce.adaptivelearning.core.engine
@@ -139,7 +142,7 @@ public class SimpleEngine implements IEngine {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#
 	 * removeResultFiredListener
 	 * (at.reisisoft.jku.ce.adaptivelearning.core.engine.IResultFiredListener)
@@ -183,7 +186,7 @@ public class SimpleEngine implements IEngine {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#requestCalculation
 	 * ()
@@ -235,7 +238,7 @@ public class SimpleEngine implements IEngine {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#start()
 	 */
 	@Override
@@ -327,44 +330,44 @@ public class SimpleEngine implements IEngine {
 		}
 		String inputMatrix = sb.append(")").toString();
 		return "library(catR, lib.loc=\""
-		+ r_libFolder
-		+ "\")"
+				+ r_libFolder
+				+ "\")"
+				+ nl
+				+ r_itemdiff
 		+ nl
-		+ r_itemdiff
-				+ nl
-				+ inputMatrix
-				+ nl
-				+ "itembank <- unname(as.matrix(cbind(1, item_diff, 0, 1)))"
-				+ nl
-				+ "stellen <- 1:length(double)"
-				+ nl
-				+ "ungerade <- stellen[which(stellen %% 2 != 0)]"
-				+ nl
-				+ "gerade <- stellen[which(stellen %% 2 == 0)]"
-				+ nl
-				+ "response_pattern <- double[gerade]"
-				+ nl
-				+ "pre_items_diff <- as.matrix(double[ungerade],length(response_pattern)) "
-				+ nl
-				+ "previous_items <- as.matrix(rep(0, length(response_pattern), length(response_pattern)))"
-				+ nl
-				+ "for(i in 1:length(response_pattern)) {"
-				+ nl
-				+ "for (j in 1:nrow(itembank)) {"
-				+ nl
-				+ "if(pre_items_diff[i,1]==itembank[j,2]) (previous_items[i,1] <-j)"
-				+ nl
-				+ "}"
-				+ nl
-				+ "}"
-				+ nl
-				+ "select_next_item <- nextItem(itembank, x = response_pattern, out = previous_items, criterion = \"MPWI\")"
-				+ nl
-				+ "next_item_parm <- c(itembank[select_next_item$item,2], "
-				+ nl
-				+ "thetaEst(itembank[previous_items,], response_pattern),"
-				+ nl
-				+ "eapSem(thetaEst(itembank[previous_items,], response_pattern), itembank[previous_items,], response_pattern))";
+		+ inputMatrix
+		+ nl
+		+ "itembank <- unname(as.matrix(cbind(1, item_diff, 0, 1)))"
+		+ nl
+		+ "stellen <- 1:length(double)"
+		+ nl
+		+ "ungerade <- stellen[which(stellen %% 2 != 0)]"
+		+ nl
+		+ "gerade <- stellen[which(stellen %% 2 == 0)]"
+		+ nl
+		+ "response_pattern <- double[gerade]"
+		+ nl
+		+ "pre_items_diff <- as.matrix(double[ungerade],length(response_pattern)) "
+		+ nl
+		+ "previous_items <- as.matrix(rep(0, length(response_pattern), length(response_pattern)))"
+		+ nl
+		+ "for(i in 1:length(response_pattern)) {"
+		+ nl
+		+ "for (j in 1:nrow(itembank)) {"
+		+ nl
+		+ "if(pre_items_diff[i,1]==itembank[j,2]) (previous_items[i,1] <-j)"
+		+ nl
+		+ "}"
+		+ nl
+		+ "}"
+		+ nl
+		+ "select_next_item <- nextItem(itembank, x = response_pattern, out = previous_items, criterion = \"MPWI\")"
+		+ nl
+		+ "next_item_parm <- c(itembank[select_next_item$item,2], "
+		+ nl
+		+ "thetaEst(itembank[previous_items,], response_pattern),"
+		+ nl
+		+ "eapSem(thetaEst(itembank[previous_items,], response_pattern), itembank[previous_items,], response_pattern))";
 	}
 
 	/**
@@ -392,7 +395,7 @@ public class SimpleEngine implements IEngine {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see
 	 * at.reisisoft.jku.ce.adaptivelearning.core.engine.IEngine#resetQuestions()
 	 */
