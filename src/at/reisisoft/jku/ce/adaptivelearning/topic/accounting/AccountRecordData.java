@@ -46,7 +46,7 @@ public class AccountRecordData implements Serializable {
 		result = prime * result + accountNumber;
 		result = prime * result
 				+ (accountName == null ? 0 : accountName.hashCode());
-		result = prime * result + Float.floatToIntBits(value);
+		result = prime * result + Math.round(value * 100);
 		return result;
 	}
 
@@ -72,10 +72,9 @@ public class AccountRecordData implements Serializable {
 		} else if (!accountName.equals(other.accountName)) {
 			return false;
 		}
-		if (Float.floatToIntBits(value) != Float.floatToIntBits(other.value)) {
+		if (Math.round(value * 100) == Math.round(other.value * 100)) {
 			return false;
 		}
 		return true;
 	}
-
 }

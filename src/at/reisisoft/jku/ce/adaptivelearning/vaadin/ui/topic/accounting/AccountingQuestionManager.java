@@ -33,10 +33,15 @@ import at.reisisoft.jku.ce.adaptivelearning.xml.topic.accounting.AccountingXmlHe
 import at.reisisoft.jku.ce.adaptivelearning.xml.topic.accounting.XmlAccountingQuestion;
 import at.reisisoft.jku.ce.adaptivelearning.xml.topic.accounting.XmlProfitQuestion;
 
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class AccountingQuestionManager extends QuestionManager {
@@ -58,12 +63,42 @@ public class AccountingQuestionManager extends QuestionManager {
 			window.center();
 				window.setWidth("60%");
 			window.setHeight("80%");
-			window.setResizable(false);
+				window.setResizable(false);
 			window.addCloseListener(e1 -> openKontenplan.setEnabled(true));
 			getUI().addWindow(window);
 
 		});
 		addHelpButton(openKontenplan);
+	}
+
+	@Override
+	public void startQuiz() {
+		// Remove everything from the layout, save it for displaying after
+		// clicking OK
+		final Component[] components = new Component[getComponentCount()];
+		for (int i = 0; i < components.length; i++) {
+			components[i] = getComponent(i);
+		}
+		removeAllComponents();
+		// Create first page
+		VerticalLayout layout = new VerticalLayout();
+
+		addComponent(layout);
+		Label label = new Label(
+				"Answer all the questions like you were working for \"Unternehmen XY\"",
+				ContentMode.HTML);
+		Button cont = new Button("Continue", e -> {
+			removeAllComponents();
+			for (Component c : components) {
+				addComponent(c);
+			}
+			super.startQuiz();
+		});
+		layout.addComponent(components[0]);// Title of the quiz
+		layout.addComponent(label);
+		layout.addComponent(cont);
+		layout.setComponentAlignment(components[0], Alignment.MIDDLE_CENTER);
+
 	}
 
 	public int loadQuestions(File containingFolder) throws JAXBException,
