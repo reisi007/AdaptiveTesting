@@ -24,7 +24,9 @@ Starting to code
 
 10. Set up Tomcat within Eclipse
 
-11. Start :)
+11. Download the rCat Library (see [issue #1](https://github.com/reisi007/AdaptiveTesting/issues/1)) and extract it to the library location ( `%temp%/r_lib`)
+
+12. Start :)
 
 Configuring an installation [also needed to start coding]
 =========================================================
