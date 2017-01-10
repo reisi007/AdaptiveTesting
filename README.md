@@ -1,3 +1,5 @@
+**Active development of the platform is continued in [this repository](https://github.com/win-ce/AdaptiveTesting2).**
+
 Starting to code
 ================
 
